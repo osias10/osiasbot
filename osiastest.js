@@ -9,7 +9,11 @@ const request =require("request");
 
 const urlencode= require('urlencode');
 
-const liot_api = 'RGAPI-03d0a389-926c-442b-885a-d2c3e6ecc18a';
+let keys = require("key.json");
+
+
+const liot_api = keys.Riot_key;
+const discord_key = keys.Discord_key;
 
 
 
@@ -171,4 +175,4 @@ client.on("message", msg => {
 
 });
 
-client.login("NzEwMzk1NzYxNjgyMTUzNTMz.XsIS-g.7ixPfy0NrHa9HTvsztLloX9Qlr4");
+client.login(discord_key);
