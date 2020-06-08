@@ -78,6 +78,7 @@ function opgg(nickname){
 
 
 //롤 id 검색
+/*
 function lolid(nickname){
 
   let url="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ liot_api;
@@ -101,6 +102,35 @@ function lolid(nickname){
   })
 
 }
+
+*/
+
+const lolid=function(nickname){
+
+  let url="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ liot_api;
+
+  return new Promise(function(resolve, reject){
+
+    request(url, function(error, response, body){
+      let info_jason = JSON.parse(body);
+      let key = Object.keys(info_jason);
+    //  console.log(key);
+
+      //let result = "id: "+info_jason[key]['id'] + "name: "+info_jason[key]["name"] +"summonerLevel :" + info_jason[key]["summonerLevel"];
+      //let result = "id: "+info_jason[key]["id"] + "name: "+info_jason[key]["name"] +"summonerLevel :" + info_jason[key]["summonerLevel"];
+      let result = "id: "+info_jason['id']+"\tLevel: "+info_jason['summonerLevel'];
+      //console.log("info_jason: "+info_jason);
+      //console.log("test");
+      //console.log(result);
+      resolve(info_jason);
+
+    })
+  })
+
+
+}
+
+
 
 //https://blog.naver.com/PostView.nhn?blogId=azure0777&logNo=221378379404&redirect=Dlog&widgetTypeCall=true&directAccess=false
 function rock(person,input){
@@ -161,13 +191,28 @@ client.on("message", msg => {
           m=getcommand2.split(' ');
           let nickname=m[1];
           //let info_summoner=lolid(nickname);
-          lolid(nickname);
+          //lolid(nickname);
+          let testsummoner;
 
+          lolid(nickname).then(function (text){
+            console.log("id: "+text['id']);
+            let level=nickname+"의 레벨 :"+text['summonerLevel'];
+            msg.reply(level);
+            //return text;
+          },function (){
+            console.log('error');
+
+          });
+
+        //  console.log("id: "+testsummoner['id']);
 
           //console.log("info_summoner: "+info_summoner);
-          console.log("info_summoner: "+JSON.stringify(info_summoner));
-          let level=nickname+"의 레벨 :"+info_summoner['summonerLevel'];
-          msg.reply(level);
+
+
+
+          //console.log("info_summoner: "+JSON.stringify(info_summoner));
+
+
         }
 
       }
