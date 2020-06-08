@@ -104,7 +104,7 @@ function lolid(nickname){
 }
 
 */
-
+// 롤 api 소환사id 정보 가져오기
 const lolid=function(nickname){
 
   let url="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ liot_api;
@@ -130,7 +130,33 @@ const lolid=function(nickname){
 
 }
 
+//롤 id값으로 랭크 정보 가져오기
+const loltier=function(id){
 
+  let url="https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id +"?api_key="+ liot_api;
+
+  return new Promise(function(resolve, reject){
+
+    request(url, function(error, response, body){
+      let info_tier = JSON.parse(body);
+      let key = Object.keys(info_tier);
+    //  console.log(key);
+
+      //let result = "id: "+info_jason[key]['id'] + "name: "+info_jason[key]["name"] +"summonerLevel :" + info_jason[key]["summonerLevel"];
+      //let result = "id: "+info_jason[key]["id"] + "name: "+info_jason[key]["name"] +"summonerLevel :" + info_jason[key]["summonerLevel"];
+      //let result = "id: "+info_jason['id']+"\tLevel: "+info_jason['summonerLevel'];
+      //console.log("info_jason: "+info_jason);
+      //console.log("test");
+      //console.log(result);
+      console.log(info_tier);
+      console.log("console Tier: "+info_tier[0]['tier']);
+      resolve(info_tier);
+
+    })
+  })
+
+
+}
 
 //https://blog.naver.com/PostView.nhn?blogId=azure0777&logNo=221378379404&redirect=Dlog&widgetTypeCall=true&directAccess=false
 function rock(person,input){
@@ -192,17 +218,33 @@ client.on("message", msg => {
           let nickname=m[1];
           //let info_summoner=lolid(nickname);
           //lolid(nickname);
-          let testsummoner;
-
+          let summonerId;
+          let summonerLevel;
+          let summonerinfo;
           lolid(nickname).then(function (text){
             console.log("id: "+text['id']);
             let level=nickname+"의 레벨 :"+text['summonerLevel'];
-            msg.reply(level);
+            summonerLevel=text['summonerLevel'];
+            summonerId=text['id'];
+
+            loltier(summonerId).then(function (gettier){
+              console.log("tier: "+gettier[0]['tier']);
+              summonerinfo= (level+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
+              msg.reply(summonerinfo);
+            },function(){
+              console.log('error');
+
+            });
+
+          //  msg.reply(level);
             //return text;
           },function (){
             console.log('error');
 
           });
+
+
+
 
         //  console.log("id: "+testsummoner['id']);
 
