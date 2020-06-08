@@ -149,7 +149,7 @@ const loltier=function(id){
       //console.log("test");
       //console.log(result);
       console.log(info_tier);
-      console.log("console Tier: "+info_tier[0]['tier']);
+      //console.log("console Tier: "+info_tier[0]['tier']);
       resolve(info_tier);
 
     })
@@ -228,8 +228,15 @@ client.on("message", msg => {
             summonerId=text['id'];
 
             loltier(summonerId).then(function (gettier){
-              console.log("tier: "+gettier[0]['tier']);
-              summonerinfo= (level+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
+
+              if (gettier[0]){
+                console.log("tier: "+gettier[0]['tier']);
+                summonerinfo= (level+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
+              }
+              else{
+                summonerinfo= (level+"\t티어: 랭크 정보가 없습니다.");
+              }
+
               msg.reply(summonerinfo);
             },function(){
               console.log('error');
