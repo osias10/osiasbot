@@ -9,7 +9,7 @@ const request =require("request");
 
 const urlencode= require('urlencode');
 
-let keys = require("key.json");
+let keys = require('./key.json');
 
 
 const liot_api = keys.Riot_key;
