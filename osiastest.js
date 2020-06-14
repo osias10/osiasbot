@@ -158,6 +158,15 @@ const loltier=function(id){
 
 }
 
+//랭크 유형 정보 (자유랭크, 솔로랭크 구분)
+
+function queueTypePrint(queueType){
+  if(queueType ==="RANKED_SOLO_5x5") return "솔로랭크";
+  else if(queueType==="RANKED_FLEX_SR"); return "자유랭크";
+}
+
+
+
 //https://blog.naver.com/PostView.nhn?blogId=azure0777&logNo=221378379404&redirect=Dlog&widgetTypeCall=true&directAccess=false
 function rock(person,input){
   let hands=["가위","바위","보"];
@@ -221,6 +230,8 @@ client.on("message", msg => {
           let summonerId;
           let summonerLevel;
           let summonerinfo;
+          let summonerinfo2;
+          let result;
           lolid(nickname).then(function (text){
             console.log("id: "+text['id']);
             let level=nickname+"의 레벨 :"+text['summonerLevel'];
@@ -229,15 +240,24 @@ client.on("message", msg => {
 
             loltier(summonerId).then(function (gettier){
 
-              if (gettier[0]){
-                console.log("tier: "+gettier[0]['tier']);
-                summonerinfo= (level+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
+              if (text['id']== undefined){
+                result=("없는 소환사 입니다.");
               }
               else{
-                summonerinfo= (level+"\t티어: 랭크 정보가 없습니다.");
+                if (gettier[0]){
+                  console.log("tier: "+gettier[0]['tier']);
+                  summonerinfo= (level+"\n랭크유형: "+queueTypePrint(gettier[0]['queueType'])+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
+                }
+                else{
+                  summonerinfo= (level+"\t티어: 랭크 정보가 없습니다.");
+                }
+                if (gettier[1]){
+                  summonerinfo2 =("\n랭크유형: "+queueTypePrint(gettier[1]['queueType'])+"\t티어: "+gettier[1]['tier']+" "+gettier[1]['rank']);
+                }
+                result=(summonerinfo+summonerinfo2);
               }
-
-              msg.reply(summonerinfo);
+              console.log(result);
+              msg.reply(result);
             },function(){
               console.log('error');
 
