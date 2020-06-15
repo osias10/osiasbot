@@ -14,7 +14,7 @@ let keys = require('./key.json');
 
 const liot_api = keys.Riot_key;
 const discord_key = keys.Discord_key;
-
+const commandLetter = "*";
 
 
 
@@ -192,7 +192,7 @@ client.on("message", msg => {
   }
   let getcommand = msg.content;
 
-  if (msg.content.startsWith("$")){
+  if (msg.content.startsWith(commandLetter)){
     let getcommand2=getcommand.substring(1,getcommand.length);
     console.log("getcommand2: "+getcommand2);
 
