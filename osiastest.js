@@ -249,10 +249,13 @@ client.on("message", msg => {
                   summonerinfo= (level+"\n랭크유형: "+queueTypePrint(gettier[0]['queueType'])+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
                 }
                 else{
-                  summonerinfo= (level+"\t티어: 랭크 정보가 없습니다.");
+                  summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
                 }
                 if (gettier[1]){
                   summonerinfo2 =("\n랭크유형: "+queueTypePrint(gettier[1]['queueType'])+"\t티어: "+gettier[1]['tier']+" "+gettier[1]['rank']);
+                }
+                else{
+                  summonerinfo2=("\n자유랭크 정보가 없습니다.");
                 }
                 result=(summonerinfo+summonerinfo2);
               }
