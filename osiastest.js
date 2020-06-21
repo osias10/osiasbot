@@ -157,6 +157,19 @@ const loltier=function(id){
 
 
 }
+//전략적 팀 전투 랭크 정보 가져오기
+const tfttier=function(id){
+  let url="https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/"+id+"?api_key="+liot_api;
+  return new Promise(function(resolve, reject){
+    request(url, function(error,response,body){
+      let info_tfttier= JSON.parse(body);
+
+      resolve(info_tfttier);
+    })
+  })
+}
+
+
 
 //랭크 유형 정보 (자유랭크, 솔로랭크 구분)
 
@@ -231,6 +244,7 @@ client.on("message", msg => {
           let summonerLevel;
           let summonerinfo;
           let summonerinfo2;
+          let summonerinfo3;
           let result;
           lolid(nickname).then(function (text){
             console.log("id: "+text['id']);
@@ -257,14 +271,37 @@ client.on("message", msg => {
                 else{
                   summonerinfo2=("\n자유랭크 정보가 없습니다.");
                 }
-                result=(summonerinfo+summonerinfo2);
+
+                tfttier(summonerId).then(function(gettfttier){
+                  console.log(gettfttier[0]);
+                  console.log(gettfttier[0]!=undefined);
+                  if(gettfttier[0]!=undefined){
+                    summonerinfo3=("\n랭크유형: 전략적팀전투\t티어: "+gettfttier[0]['tier']+" "+gettfttier[0]['rank']);
+                  }
+                  else{
+                    summonerinfo3=("\n전략적팀전투 정보가 없습니다.");
+                  }
+
+                  result=(summonerinfo+summonerinfo2+summonerinfo3);
+                  console.log(result);
+                  msg.reply(result);
+
+                },function(){
+                  console.log('error');
+                });
+
+
+
+
+
               }
-              console.log(result);
-              msg.reply(result);
+
             },function(){
               console.log('error');
 
             });
+
+
 
           //  msg.reply(level);
             //return text;
