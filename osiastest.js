@@ -1,4 +1,6 @@
 const Discord = require("discord.js");
+let printCoin=require('./getBitcoin');
+
 const client = new Discord.Client();
 //gittest
 //크롤링
@@ -328,6 +330,17 @@ client.on("message", msg => {
           let name=m[1];
           msg.reply(name+": 두부 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
 
+        }
+        else if (getcommand2.startsWith("비트코인")){
+          m=getcommand2.split(' ');
+          let coinkind=m[1];
+          const getcoinvalue = function(coinkind){
+            return new Promise((resolve, reject) => resolve(printCoin(coinkind)));
+          }
+          getcoinvalue(coinkind).then(function(coinvalueResult){
+            msg.reply(coinvalueResult);
+
+          });
         }
 
       }
