@@ -8,7 +8,7 @@ const request =require("request");
 let app = express();
 var server= http.createServer(app);
 
-
+/*
 function printCoin(coin){
     let resultcoin=coin+" 코인 시세\n거래소\t\t실시간 시세(KRW)\t24시간 변동률\n";
     //const pm1 = new Promise((resolve, reject) => resolve('즉시 호출'))
@@ -43,7 +43,7 @@ function printCoin(coin){
           });
 }
 
-
+*/
 //console.log(printCoin("BTC"));
 
 /*
@@ -52,4 +52,34 @@ server.listen(3000, function() {
 });
 */
 
-module.exports =printCoin
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+출처: https://fruitdev.tistory.com/160 [과일가게 개발자]
+
+module.exports = {
+
+    //let resultcoin = coin+" 코인 시세\n거래소\t\t실시간 시세(KRW)\t24시간 변동률\n";
+    //const pm1 = new Promise((resolve, reject) => resolve('즉시 호출'))
+    upbit: function(coin){
+        return new Promise(function(resolve,reject){
+           // let coin="BTC";
+            let url="https://crix-api-endpoint.upbit.com/v1/crix/candles/days/?code=CRIX.UPBIT.KRW-"+coin;
+            request(url, function(error, response, body){
+                let info_jason = JSON.parse(body);
+                let key = Object.keys(info_jason);
+                let resultUpbit="업비트\t\t\t\t"+numberWithCommas(info_jason[0]['tradePrice'])+"\t\t\t\t\t\t"+numberWithCommas(info_jason[0]['changePrice'])+"\n"
+                //let result = "id: "+info_jason['id']+"\tLevel: "+info_jason['summonerLevel'];
+                //console.log(info_jason);
+                //resolve(info_jason);
+                resolve(resultUpbit);
+      
+            })
+        
+
+        })
+    }
+
+}

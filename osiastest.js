@@ -195,6 +195,14 @@ function rock(person,input){
   return data;
 }
 
+//비트코인
+
+//시세 조회 (upbit만)
+function promisetest(coin){
+  return Promise.all([printCoin.upbit(coin)]);
+}
+
+
 
 
 client.on("ready", () => {
@@ -334,13 +342,11 @@ client.on("message", msg => {
         else if (getcommand2.startsWith("비트코인")){
           m=getcommand2.split(' ');
           let coinkind=m[1];
-          const getcoinvalue = function(coinkind){
-            return new Promise((resolve, reject) => resolve(printCoin(coinkind)));
-          }
-          getcoinvalue(coinkind).then(function(coinvalueResult){
-            msg.reply(coinvalueResult);
+          let resultcoin = coinkind+" 코인 시세\n거래소\t\t실시간 시세(KRW)\t\t24시간 변동률\n"
+          promisetest(coinkind).then(function(data){
+            msg.reply(resultcoin+data);
+        })
 
-          });
         }
 
       }
