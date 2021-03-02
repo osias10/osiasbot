@@ -57,7 +57,7 @@ function numberWithCommas(x) {
 }
 
 
-출처: https://fruitdev.tistory.com/160 [과일가게 개발자]
+
 
 module.exports = {
 
@@ -70,11 +70,18 @@ module.exports = {
             request(url, function(error, response, body){
                 let info_jason = JSON.parse(body);
                 let key = Object.keys(info_jason);
-                let resultUpbit="업비트\t\t\t\t"+numberWithCommas(info_jason[0]['tradePrice'])+"\t\t\t\t\t\t"+numberWithCommas(info_jason[0]['changePrice'])+"\n"
-                //let result = "id: "+info_jason['id']+"\tLevel: "+info_jason['summonerLevel'];
-                //console.log(info_jason);
-                //resolve(info_jason);
-                resolve(resultUpbit);
+                if (info_jason[0]!=undefined){
+                    let resultUpbit="업비트\t\t\t\t"+numberWithCommas(info_jason[0]['tradePrice'])+"\t\t\t\t\t\t"+numberWithCommas(info_jason[0]['changePrice'])+"\n"
+                    //let result = "id: "+info_jason['id']+"\tLevel: "+info_jason['summonerLevel'];
+                    //console.log(info_jason);
+                    //resolve(info_jason);
+                    resolve(resultUpbit);
+                }
+                else{
+                    let resultUpbit = "업비트\t\t\t\t해당 코인정보가 존재하지 않습니다."
+                    resolve(resultUpbit);
+                }
+                
       
             })
         

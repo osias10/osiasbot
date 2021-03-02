@@ -336,7 +336,8 @@ client.on("message", msg => {
         else if(getcommand2.startsWith("바보")){
           m=getcommand2.split(' ');
           let name=m[1];
-          msg.reply(name+": 두부 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
+          //msg.reply(name+": 두부 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
+          msg.reply(name+" 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
 
         }
         else if (getcommand2.startsWith("비트코인")){
