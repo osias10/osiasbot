@@ -238,7 +238,7 @@ client.on("message", msg => {
 
 
 
-        if (getcommand2.startsWith("롤티어")){
+        else if (getcommand2.startsWith("롤티어")){
           m = getcommand2.split(' ');
           let nickname = m[1];
           let tier =opgg(nickname);
@@ -251,7 +251,11 @@ client.on("message", msg => {
           msg.reply(data);
 
         }
-        if (getcommand2.startsWith("롤")){
+        else if (getcommand2.startsWith("롤내전")){
+          let result="https://lolbalance.osias.duckdns.org";
+          msg.reply(result);
+        }
+        else if (getcommand2.startsWith("롤")){
           m=getcommand2.split(' ');
           let nickname=m[1];
           //let info_summoner=lolid(nickname);
@@ -353,8 +357,8 @@ client.on("message", msg => {
           promisetest(coinkind).then(function(data){
             msg.reply(resultcoin+data);
         })
-
         }
+        
 
       }
 
