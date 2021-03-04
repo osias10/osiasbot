@@ -181,18 +181,24 @@ function queueTypePrint(queueType){
 }
 
 
-
+//가위바위보
 //https://blog.naver.com/PostView.nhn?blogId=azure0777&logNo=221378379404&redirect=Dlog&widgetTypeCall=true&directAccess=false
 function rock(person,input){
   let hands=["가위","바위","보"];
   let results=["비겼습니다.",person+"님이 이겼습니다!",person+"님이 졌습니다..."];
   let you=hands.indexOf(input);
   let com=Math.floor(Math.random()*3);
-
-  let game = (3+you-com)%3;
-  console.log(person+": "+hands[you]+"\t 컴퓨터: "+hands[com]+"\n"+results[game]);
-  let data = ("\n"+person+": "+hands[you]+"\t 컴퓨터: "+hands[com]+"\n"+results[game]);
-  return data;
+  if (you != -1){
+    
+    let game = (3+you-com)%3;
+    console.log(person+": "+hands[you]+"\t 컴퓨터: "+hands[com]+"\n"+results[game]);
+    let data = ("\n"+person+": "+hands[you]+"\t 컴퓨터: "+hands[com]+"\n"+results[game]);
+    return data;
+  }
+  else {
+    let data=person+"님의 반칙입니다"
+    return data;
+  }
 }
 
 //비트코인
