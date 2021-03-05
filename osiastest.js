@@ -217,16 +217,18 @@ client.on("ready", () => {
 
 client.on("message", msg => {
   if (msg.content == "ping") {
-    msg.reply("pong!`"+Math.floor(client.ping)+"ms`");
+    msg.reply("pong!`"+Math.floor(client.ws.ping)+"ms`");
   }
   let getcommand = msg.content;
+  
 
   if (msg.content.startsWith(commandLetter)){
     let getcommand2=getcommand.substring(1,getcommand.length);
     console.log("getcommand2: "+getcommand2);
+    m=getcommand2.trim().split(/ +/);
 
     if (getcommand2.startsWith("dice")||getcommand2.startsWith("주사위")){
-        m = getcommand2.split(' ');
+        //m = getcommand2.split(' ');
         if ((typeof m[1]!= "undefined") ||(typeof  m[2] != undefined)){
 
             msg.reply(m[1]+", "+ m[2]);
@@ -239,13 +241,13 @@ client.on("message", msg => {
 
 
         else if (getcommand2.startsWith("롤티어")){
-          m = getcommand2.split(' ');
+          //m = getcommand2.split(' ');
           let nickname = m[1];
           let tier =opgg(nickname);
           msg.reply(nickname+"의 티어 검색결과\n"+tier);
         }
         if (getcommand2.startsWith("가위바위보")){
-          m = getcommand2.split(' ');
+          //m = getcommand2.split(' ');
           let you = m[1];
           let data = rock(msg.author.username,m[1]);
           msg.reply(data);
@@ -256,7 +258,7 @@ client.on("message", msg => {
           msg.reply(result);
         }
         else if (getcommand2.startsWith("롤")){
-          m=getcommand2.split(' ');
+          //m=getcommand2.split(' ');
           let nickname=m[1];
           //let info_summoner=lolid(nickname);
           //lolid(nickname);
@@ -302,7 +304,7 @@ client.on("message", msg => {
                     summonerinfo3=("\n전략적팀전투 정보가 없습니다.");
                   }
 
-                  result=(summonerinfo+summonerinfo2+summonerinfo3);
+                  result=("```"+summonerinfo+summonerinfo2+summonerinfo3+"```");
                   console.log(result);
                   msg.reply(result);
 
@@ -344,14 +346,14 @@ client.on("message", msg => {
 
         }
         else if(getcommand2.startsWith("바보")){
-          m=getcommand2.split(' ');
+          //m=getcommand2.split(' ');
           let name=m[1];
           //msg.reply(name+": 두부 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
           msg.reply(name+" 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
 
         }
         else if (getcommand2.startsWith("비트코인")){
-          m=getcommand2.split(' ');
+          //m=getcommand2.split(' ');
           let coinkind=m[1];
           let resultcoin = coinkind+" 코인 시세\n거래소\t\t실시간 시세(KRW)\t\t24시간 변동률\n"
           promisetest(coinkind).then(function(data){
