@@ -16,6 +16,7 @@ let keys = require('./key.json');
 
 const liot_api = keys.Riot_key;
 const discord_key = keys.Discord_key;
+const riot_tft_api = keys.Riot_tft_key;
 const commandLetter = "*";
 
 
@@ -124,11 +125,11 @@ const lolid=function(nickname){
       //console.log("info_jason: "+info_jason);
       //console.log("test");
       //console.log(result);
+      console.log(info_jason);
       resolve(info_jason);
 
     })
   })
-
 
 }
 
@@ -159,13 +160,45 @@ const loltier=function(id){
 
 
 }
+
+//전략적 팀전투 계정 정보 가져오기
+
+const tftid=function(nickname){
+
+  let url="https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ riot_tft_api;
+
+  return new Promise(function(resolve, reject){
+
+    request(url, function(error, response, body){
+      let info_jason = JSON.parse(body);
+      let key = Object.keys(info_jason);
+    //  console.log(key);
+
+      //let result = "id: "+info_jason[key]['id'] + "name: "+info_jason[key]["name"] +"summonerLevel :" + info_jason[key]["summonerLevel"];
+      //let result = "id: "+info_jason[key]["id"] + "name: "+info_jason[key]["name"] +"summonerLevel :" + info_jason[key]["summonerLevel"];
+      let result = "id: "+info_jason['id']+"\tLevel: "+info_jason['summonerLevel'];
+      //console.log("info_jason: "+info_jason);
+      //console.log("test");
+      //console.log(result);
+      console.log("tftid\n");
+      console.log(info_jason);
+      resolve(info_jason);
+
+    })
+  })
+
+}
+
+
+
+
 //전략적 팀 전투 랭크 정보 가져오기
 const tfttier=function(id){
-  let url="https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/"+id+"?api_key="+liot_api;
+  let url="https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/"+id+"?api_key="+riot_tft_api;
   return new Promise(function(resolve, reject){
     request(url, function(error,response,body){
       let info_tfttier= JSON.parse(body);
-
+      console.log(info_tfttier);
       resolve(info_tfttier);
     })
   })
@@ -217,7 +250,9 @@ client.on("ready", () => {
 
 client.on("message", msg => {
   if (msg.content == "ping") {
-    msg.reply("pong!`"+Math.floor(client.ws.ping)+"ms`");
+    //msg.reply("🏓 pong! `지연시간: "+Date.now()-msg.createdTimestamp +"API 지연시간: "+Math.floor(client.ws.ping)+"ms`");
+    msg.reply("🏓 pong! `API 지연시간: "+Math.floor(client.ws.ping)+"ms`");
+
   }
   let getcommand = msg.content;
   
@@ -279,7 +314,7 @@ client.on("message", msg => {
               if (text['id']== undefined){
                 result="없는 소환사 입니다.";
                 console.log("존재하지 않는 소환사명:"+summonerId);
-                msg.reply("```"+result+"```");
+                msg.reply("\n```\n"+result+"\n```");
               }
               else{
                 if (gettier[0]){
@@ -304,23 +339,29 @@ client.on("message", msg => {
                   summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
                   summonerinfo2=("\n자유랭크 정보가 없습니다.");
                 }
+                tftid(nickname).then(function(tftSummoner){
+                  let tftSummonerID=tftSummoner['id'];
+                  tfttier(tftSummonerID).then(function(gettfttier){
+                    //console.log(text['id']);
+                    console.log(gettfttier[0]);
+                  
+                    if(gettfttier[0]!=undefined){
+                      summonerinfo3=("\n랭크유형: 전략적팀전투\t티어: "+gettfttier[0]['tier']+" "+gettfttier[0]['rank']);
+                    }
+                    else{
+                      summonerinfo3=("\n전략적팀전투 정보가 없습니다.");
+                    }
 
-                tfttier(summonerId).then(function(gettfttier){
-                  console.log(gettfttier[0]);
-                  console.log(gettfttier[0]!=undefined);
-                  if(gettfttier[0]!=undefined){
-                    summonerinfo3=("\n랭크유형: 전략적팀전투\t티어: "+gettfttier[0]['tier']+" "+gettfttier[0]['rank']);
-                  }
-                  else{
-                    summonerinfo3=("\n전략적팀전투 정보가 없습니다.");
-                  }
+                    result=("```\n"+summonerinfo+summonerinfo2+summonerinfo3+"\n```");
+                    console.log(result);
+                    msg.reply("\n"+result);
 
-                  result=("```"+summonerinfo+summonerinfo2+summonerinfo3+"```");
-                  console.log(result);
-                  msg.reply(result);
+                  },function(){
+                    console.log('error');
+                  });
 
                 },function(){
-                  console.log('error');
+                  console.log('tftid_error');
                 });
 
                 
