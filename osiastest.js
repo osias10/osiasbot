@@ -278,20 +278,29 @@ client.on("message", msg => {
 
               if (text['id']== undefined){
                 result=("없는 소환사 입니다.");
+                console.log("존재하지 않는 소환사명:"+summonerId);
               }
               else{
                 if (gettier[0]){
-                  console.log("tier: "+gettier[0]['tier']);
-                  summonerinfo= (level+"\n랭크유형: "+queueTypePrint(gettier[0]['queueType'])+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
-                }
-                else{
-                  summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
-                }
-                if (gettier[1]){
-                  summonerinfo2 =("\n랭크유형: "+queueTypePrint(gettier[1]['queueType'])+"\t티어: "+gettier[1]['tier']+" "+gettier[1]['rank']);
-                }
-                else{
-                  summonerinfo2=("\n자유랭크 정보가 없습니다.");
+                  if ((gettier[0]['queueType']==="RANKED_SOLO_5x5")){
+                    console.log("tier: "+gettier[0]['tier']);
+                    summonerinfo= (level+"\n랭크유형: "+queueTypePrint(gettier[0]['queueType'])+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
+                  
+                    if (gettier[1]&&gettier[1]['queueType']==="RANKED_FLEX_SR"){
+                      summonerinfo2 =("\n랭크유형: "+queueTypePrint(gettier[1]['queueType'])+"\t티어: "+gettier[1]['tier']+" "+gettier[1]['rank']);
+                    }
+                    else{
+                      summonerinfo2=("\n자유랭크 정보가 없습니다.");
+                    }
+                  }
+                  else if(gettier[0]['queueType']==="RANKED_FLEX_SR"){
+                    summonerinfo2 =("\n랭크유형: "+queueTypePrint(gettier[0]['queueType'])+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
+                    summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
+                  }
+                  else{
+                    summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
+                    summonerinfo2=("\n자유랭크 정보가 없습니다.");
+                  }
                 }
 
                 tfttier(summonerId).then(function(gettfttier){
