@@ -277,8 +277,9 @@ client.on("message", msg => {
             loltier(summonerId).then(function (gettier){
 
               if (text['id']== undefined){
-                result=("없는 소환사 입니다.");
+                result="없는 소환사 입니다.";
                 console.log("존재하지 않는 소환사명:"+summonerId);
+                msg.reply("```"+result+"```");
               }
               else{
                 if (gettier[0]){
@@ -297,10 +298,11 @@ client.on("message", msg => {
                     summonerinfo2 =("\n랭크유형: "+queueTypePrint(gettier[0]['queueType'])+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
                     summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
                   }
-                  else{
-                    summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
-                    summonerinfo2=("\n자유랭크 정보가 없습니다.");
-                  }
+                  
+                }
+                else{
+                  summonerinfo= (level+"\n솔로랭크 정보가 없습니다.");
+                  summonerinfo2=("\n자유랭크 정보가 없습니다.");
                 }
 
                 tfttier(summonerId).then(function(gettfttier){
@@ -321,10 +323,7 @@ client.on("message", msg => {
                   console.log('error');
                 });
 
-
-
-
-
+                
               }
 
             },function(){
