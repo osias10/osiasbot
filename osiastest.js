@@ -398,7 +398,8 @@ client.on("message", msg => {
           //m=getcommand2.split(' ');
           let name=m[1];
           //msg.reply(name+": 두부 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
-          msg.reply(name+" 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");
+          if (name) {msg.channel.send(name+" 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");}
+          else{msg.channel.send(msg.guild.member(msg.author).displayName+" 바보\n포항항ꉂꉂ(ᵔᗜᵔ)ㅋㅋㅋㅋ:cruise_ship::ocean:");}
 
         }
         else if (getcommand2.startsWith("비트코인")){
@@ -409,7 +410,13 @@ client.on("message", msg => {
             msg.reply(resultcoin+data);
         })
         }
-        
+
+        else if(getcommand2.startsWith("플레")){
+          //m=getcommand2.split(' ');
+          
+          msg.reply("<:2482_Platinium:818816782088798239>");
+
+        }
 
       }
 
