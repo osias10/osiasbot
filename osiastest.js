@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 let printCoin=require('./getBitcoin');
+//let lolData=require('./lol_data');
 
 const client = new Discord.Client();
 //gittest
@@ -240,7 +241,16 @@ function rock(person,input){
 function promisetest(coin){
   return Promise.all([printCoin.upbit(coin)]);
 }
-
+/*
+function get_lol_data(nickname){
+  return Promise.all([lolData.loltier(lolData.lolid(nickname))]);
+}
+*/
+/*
+function test_get_lol_data(nickname){
+  return Promise.all([lolData.gettier(nickname)]);
+}
+*/
 
 
 
@@ -292,6 +302,17 @@ client.on("message", msg => {
           let result="https://lolbalance.osias.duckdns.org";
           msg.reply(result);
         }
+        else if (getcommand2.startsWith("롤정보")){
+          let nickname=m[1];
+          /*
+          get_lol_data(nickname).then(function(data){
+            msg.reply(data);
+          })
+          */
+          //msg.reply(lolData.gettier(nickname));
+
+        }
+
         else if (getcommand2.startsWith("롤")){
           //m=getcommand2.split(' ');
           let nickname=m[1];
