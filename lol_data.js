@@ -13,7 +13,7 @@ const urlencode= require('urlencode');
 
 
 
-const { resolve } = require('node:path');
+//const { resolve } = require('node:path');
 
 
 let keys = require('./key.json');
@@ -55,7 +55,7 @@ module.exports = {
         let url="https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+lolid['id'] +"?api_key="+ liot_api;
         
         return new Promise(function(resolve, reject){
-            
+          //console.log(lolid);
           request(url, function(error, response, body){
             let info_tier = JSON.parse(body);
             let key = Object.keys(info_tier);
@@ -70,7 +70,8 @@ module.exports = {
             //console.log(result);
             console.log(info_tier);
             //console.log("console Tier: "+info_tier[0]['tier']);
-            let result= lolid+info_tier;
+            //result= lolid+info_tier;
+            let result= info_tier;
             //console.log(result);
             
             resolve(result);

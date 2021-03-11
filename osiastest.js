@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 let printCoin=require('./getBitcoin');
-//let lolData=require('./lol_data');
+let lolData=require('./lol_data');
 
 const client = new Discord.Client();
 //gittest
@@ -254,6 +254,7 @@ function test_get_lol_data(nickname){
 
 
 
+
 client.on("ready", () => {
   console.log("준비 완료!");
 });
@@ -310,7 +311,18 @@ client.on("message", msg => {
           })
           */
           //msg.reply(lolData.gettier(nickname));
+          let result;
+          lolData.lolid(nickname).then((data)=>{
+            
+            //let info_jason=data;
+            return lolData.loltier(data);
+          }).then((gettier)=>{
+            console.log(JSON.stringify(gettier));
+            summonerinfo= ("\n랭크유형: "+queueTypePrint(gettier[0]['queueType'])+"\t티어: "+gettier[0]['tier']+" "+gettier[0]['rank']);
 
+            result=summonerinfo;
+          })
+          msg.reply(result);
         }
 
         else if (getcommand2.startsWith("롤")){
