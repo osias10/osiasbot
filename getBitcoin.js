@@ -68,9 +68,10 @@ module.exports = {
            // let coin="BTC";
             let url="https://crix-api-endpoint.upbit.com/v1/crix/candles/days/?code=CRIX.UPBIT.KRW-"+coin;
             request(url, function(error, response, body){
-                let info_jason = JSON.parse(body);
-                let key = Object.keys(info_jason);
-                if (info_jason[0]!=undefined){
+                
+                //let key = Object.keys(info_jason);
+                if (body!=undefined){
+                    let info_jason = JSON.parse(body);
                     let resultUpbit="업비트\t\t\t\t"+numberWithCommas(info_jason[0]['tradePrice'])+"\t\t\t\t\t\t"+numberWithCommas(info_jason[0]['changePrice'])+"\n"
                     //let result = "id: "+info_jason['id']+"\tLevel: "+info_jason['summonerLevel'];
                     //console.log(info_jason);
