@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 let printCoin=require('./getBitcoin');
 let lolData=require('./lol_data');
+const getLolData=require('./getLolData');
 
 const client = new Discord.Client();
 //gittest
@@ -251,7 +252,7 @@ function test_get_lol_data(nickname){
   return Promise.all([lolData.gettier(nickname)]);
 }
 */
-
+//getLolData
 
 
 
@@ -259,7 +260,7 @@ client.on("ready", () => {
   console.log("준비 완료!");
 });
 
-client.on("message", msg => {
+client.on("message", async msg => {
   if (msg.content == "ping") {
     //msg.reply("🏓 pong! `지연시간: "+Date.now()-msg.createdTimestamp +"API 지연시간: "+Math.floor(client.ws.ping)+"ms`");
     msg.reply("🏓 pong! `API 지연시간: "+Math.floor(client.ws.ping)+"ms`");
@@ -311,6 +312,7 @@ client.on("message", msg => {
           })
           */
           //msg.reply(lolData.gettier(nickname));
+          /*
           let result;
           lolData.lolid(nickname).then((data)=>{
             
@@ -322,7 +324,16 @@ client.on("message", msg => {
 
             result=summonerinfo;
           })
-          msg.reply(result);
+          */
+          let summoner= await getLolData.getSummonerInfo(nickname);
+          console.log(summoner);
+          let summonertier= await getLolData.getSummonerRank(summoner);
+          console.log(summonertier);
+          result="확인";
+          result = `\n랭크유형: ${queueTypePrint(summonertier['queueType'])}`;
+          result=getLolData.makeDiscordEmbed(nickname,summoner,summonertier);
+          console.log(result);
+          msg.channel.send(result);
         }
 
         else if (getcommand2.startsWith("롤")){
