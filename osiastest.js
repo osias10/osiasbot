@@ -13,15 +13,20 @@ const request =require("request");
 
 const urlencode= require('urlencode');
 
+const {Riot_key, Riot_tft_key, Discord_key} = require('./key.json');
+const commandLetter = "*";
+
+
+/*
 let keys = require('./key.json');
 
 
 const liot_api = keys.Riot_key;
 const discord_key = keys.Discord_key;
 const riot_tft_api = keys.Riot_tft_key;
-const commandLetter = "*";
 
 
+*/
 
 function searchopgg(nickname){
   const getHtml = async () => {
@@ -112,7 +117,7 @@ function lolid(nickname){
 // 롤 api 소환사id 정보 가져오기
 const lolid=function(nickname){
 
-  let url="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ liot_api;
+  let url="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ Riot_key;
 
   return new Promise(function(resolve, reject){
 
@@ -138,7 +143,7 @@ const lolid=function(nickname){
 //롤 id값으로 랭크 정보 가져오기
 const loltier=function(id){
 
-  let url="https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id +"?api_key="+ liot_api;
+  let url="https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id +"?api_key="+ Riot_key;
 
   return new Promise(function(resolve, reject){
 
@@ -167,7 +172,7 @@ const loltier=function(id){
 
 const tftid=function(nickname){
 
-  let url="https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ riot_tft_api;
+  let url="https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/"+ urlencode(nickname) +"?api_key="+ Riot_tft_key;
 
   return new Promise(function(resolve, reject){
 
@@ -196,7 +201,7 @@ const tftid=function(nickname){
 
 //전략적 팀 전투 랭크 정보 가져오기
 const tfttier=function(id){
-  let url="https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/"+id+"?api_key="+riot_tft_api;
+  let url="https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/"+id+"?api_key="+Riot_tft_key;
   return new Promise(function(resolve, reject){
     request(url, function(error,response,body){
       let info_tfttier= JSON.parse(body);
@@ -329,9 +334,8 @@ client.on("message", async msg => {
           console.log(summoner);
           let summonertier= await getLolData.getSummonerRank(summoner);
           console.log(summonertier);
-          result="확인";
-          result = `\n랭크유형: ${queueTypePrint(summonertier['queueType'])}`;
-          result=getLolData.makeDiscordEmbed(nickname,summoner,summonertier);
+          
+          result=  getLolData.makeDiscordEmbed(nickname,summoner,summonertier);
           console.log(result);
           msg.channel.send(result);
         }
@@ -467,4 +471,4 @@ client.on("message", async msg => {
 
 });
 
-client.login(discord_key);
+client.login(Discord_key);
