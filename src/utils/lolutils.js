@@ -28,6 +28,11 @@ const getSummonerRankTft = async (lolid) =>
     .then(res => res.data)
     .catch(err => err);
 
+const getLolStatus = async () =>
+    await axios.get(`https://kr.api.riotgames.com/lol/status/v4/platform-data?api_key=${RIOT_KEY}`)
+    .then(res => res.data)
+    .catch(err=>err);
+
 
 function printTierEmoji(tier){
     if (tier[0]){
@@ -111,10 +116,54 @@ function makeDiscordEmbed(nickname, summonerInfo, summonerRank, summonerInfoTft,
     });
 }
 
+function printLolStatus(lolStatus){
+
+    let lolStatusEmbed ={
+        'content': '',
+        'embed': {
+            'title': `서버 상태`,
+            'description': '',
+            'url': `https://status.riotgames.com/?locale=ko_KR`,
+            'color': 16724889,
+            'footer': {
+                'icon_url': '',
+                'text': 'KR'
+            },
+            'thumbnail': {
+                'url': `https://w.namu.la/s/f8d74325cc664de8372ea7c07da672a55da4b6a4c1053bad4cf36271d8a2cf1dc561bdb0e9ec1cdd66db82e747757d8ced822edbb54d80a8644ae2c3320079feb9677de31da399cb192f246247bd13af04a97188e754b3478b2cdcead2072cf362923ab6dbd76cf1513806f3a3c10b03`
+            },
+            'image': {
+                'url': ' '
+            },
+            'author': {
+                'name': 'League of legend',
+                'url': `https://status.riotgames.com/?locale=ko_KR`,
+                'icon_url': 'https://ww.namu.la/s/c697070bee957de3acbbf033eb001ac7705b9703e48813bc8b7ccaa0efb22d712a564b9d0c8580148a138b0761720fe6f2d9d82192ab14eb7ca7e5b1f8b38bff8f00aaa28bd0b9929715cbf92350e8d6fb705e7630086aaced366e7758fcd05b'
+            },
+            'fields': [
+                
+            ],
+        }
+    };
+
+    if ((lolStatus.incidents).length>0){
+        for (let i=0;i<(lolStatus.incidents).length;i++){
+            (lolStatusEmbed.embed.fields).push({'name': `서버 상태 ${i+1}`, 'value':lolStatus.incidents[i].titles[0].content,'inline':false});
+        }
+    }
+    else{
+        (lolStatusEmbed.embed.fields).push({'name': "서버 상태 1", 'value':'정상입니다.','inline':false});
+    }
+    console.log(lolStatusEmbed.embed.fields);
+    return lolStatusEmbed;
+}
+
 module.exports = {
     getSummonerInfo,
     getSummonerRank,
     getSummonerInfoTft,
     getSummonerRankTft,
-    makeDiscordEmbed
+    makeDiscordEmbed,
+    getLolStatus,
+    printLolStatus
 }

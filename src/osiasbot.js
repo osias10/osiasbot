@@ -32,6 +32,8 @@ client.on('message', async msg => {
     msg.reply(`https://lolbalance.osias.duckdns.org`);
   } else if (command.startsWith('롤정보')) {
     msg.channel.send(await osiasFunc.getLoLInfo(command));
+  } else if(command.startsWith('롤상태')){
+    msg.channel.send(await osiasFunc.getLolStatus(command));
   } else if (command.startsWith('바보')) {
     let name = commandList[1];
     if (name) {

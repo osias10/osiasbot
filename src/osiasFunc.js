@@ -22,7 +22,17 @@ const getLoLInfo = async (command) => {
 }
 //인게임 정보 가져오기
 
+//롤 상태 보기
+const getLolStatus = async () =>{
+    
 
+    let lolStatus = await lolutils.getLolStatus();
+    
+    return (lolutils.printLolStatus(lolStatus));
+    
+    
+
+}
 
 const getCoin = async (command) => {
     if(command.length > 1) {
@@ -36,5 +46,5 @@ const getCoin = async (command) => {
 }
 
 module.exports = {
-    getLoLInfo, getCoin
+    getLoLInfo, getCoin,getLolStatus
 };
