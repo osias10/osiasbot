@@ -1,4 +1,4 @@
 {
-  "Riot_key" : "Your_Riot_key",
-  "Discord_key" : "Your_Discord_Bot_key"
+  "RIOT_KEY" : "Your_RIOT_KEY",
+  "DISCORD_KEY" : "Your_Discord_Bot_key"
 }
