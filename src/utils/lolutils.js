@@ -6,7 +6,7 @@ const {
     RIOT_TFT_KEY
 } = require('../../key.json');
 
-const rankToString = (rank) => rank && rank.length > 0 ? `${rank[0].tier} ${rank[0].rank}` : 'UnRanked';
+const rankToString = (rank) => rank && rank.length > 0 ? `${rank[0].tier} ${rank[0].rank} ${rank[0].leaguePoints}LP` : 'UnRanked';
 
 const getSummonerInfo = async (nickname) =>
     await axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${urlencode(nickname)}?api_key=${RIOT_KEY}`)
@@ -47,6 +47,17 @@ function printTierEmoji(tier){
     else return ""
 }
 
+//게임판수 , 승률 프린트
+function printGameCounts(Rank){
+    if (Rank[0]){
+        return `${Rank[0].wins+Rank[0].losses}전 ${Rank[0].wins}승 ${Rank[0].losses}패 ${((Rank[0].wins/(Rank[0].wins+Rank[0].losses)*100).toFixed())}%`;
+    }
+    else return "";
+}
+
+
+
+
 function makeDiscordEmbed(nickname, summonerInfo, summonerRank, summonerInfoTft, summonerRankTft) {
     const soloRank = summonerRank.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
     const summonerSoloRank = rankToString(soloRank);
@@ -82,17 +93,17 @@ function makeDiscordEmbed(nickname, summonerInfo, summonerRank, summonerInfoTft,
             },
             'fields': [{
                     'name': '개인 랭크',
-                    'value': printTierEmoji(soloRank)+ summonerSoloRank,
+                    'value': `${printTierEmoji(soloRank)} ${summonerSoloRank}\n${printGameCounts(soloRank)}`,
                     'inline': true
                 },
                 {
                     'name': '자유 랭크',
-                    'value': printTierEmoji(flexRank)+ summonerFlexRank,
+                    'value': `${printTierEmoji(flexRank)} ${summonerFlexRank}\n${printGameCounts(flexRank)}`,
                     'inline': true
                 },
                 {
                     'name': 'TFT 랭크',
-                    'value': printTierEmoji(summonerRankTft)+ summonerTFTRank,
+                    'value': `${printTierEmoji(summonerRankTft)} ${summonerTFTRank}\n${printGameCounts(summonerRankTft)}`,
                     'inline': true
                 },
             ],

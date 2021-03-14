@@ -10,7 +10,7 @@ const getLoLInfo = async (command) => {
     let nicknametft = await lolutils.getSummonerInfoTft(nickname);
     let summonertfttier = await lolutils.getSummonerRankTft(nicknametft);
     console.log(summoner.response);
-    if(summoner.response.status===404){
+    if(summoner.response!=undefined && summoner.response.status===404){
         result = "```해당 소환사 정보가 존재하지 않습니다.```";
         
     }
