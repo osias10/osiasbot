@@ -2,16 +2,27 @@ const lolutils = require('./utils/lolutils');
 const coinutils = require('./utils/coinutils');
 
 const getLoLInfo = async (command) => {
+    let result;
     let nickname = command.substring(command.indexOf(' ') + 1);
-
+    
     let summoner = await lolutils.getSummonerInfo(nickname);
     let summonertier = await lolutils.getSummonerRank(summoner);
     let nicknametft = await lolutils.getSummonerInfoTft(nickname);
     let summonertfttier = await lolutils.getSummonerRankTft(nicknametft);
-    
-    let result = lolutils.makeDiscordEmbed(nickname, summoner, summonertier, nicknametft, summonertfttier);
+    console.log(summoner.response);
+    if(summoner.response.status===404){
+        result = "```해당 소환사 정보가 존재하지 않습니다.```";
+        
+    }
+    else{
+        result = lolutils.makeDiscordEmbed(nickname, summoner, summonertier, nicknametft, summonertfttier);
+        
+    }
     return result;
 }
+//인게임 정보 가져오기
+
+
 
 const getCoin = async (command) => {
     if(command.length > 1) {
