@@ -7,8 +7,8 @@ const getLoLInfo = async (command) => {
     let summoner = await lolutils.getSummonerInfo(nickname);
     let summonertier = await lolutils.getSummonerRank(summoner);
     let nicknametft = await lolutils.getSummonerInfoTft(nickname);
-    let summonertfttier = await lolutils.getSummonerRankTft(summoner);
-
+    let summonertfttier = await lolutils.getSummonerRankTft(nicknametft);
+    
     let result = lolutils.makeDiscordEmbed(nickname, summoner, summonertier, nicknametft, summonertfttier);
     return result;
 }
