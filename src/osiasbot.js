@@ -26,6 +26,8 @@ client.on('message', async msg => {
 
   if (command.startsWith('dice') || command.startsWith('주사위')) {
     msg.reply(minigame.dice(commandList));
+  } else if (command.startsWith('help') || command.startsWith('봇안내')){
+    msg.channel.send(osiasFunc.printHelp());
   } else if (command.startsWith('가위바위보')) {
     msg.reply(minigame.rockPaperScissors(msg.author.username, commandList[1]));
   } else if (command.startsWith('롤내전')) {
@@ -34,6 +36,10 @@ client.on('message', async msg => {
     msg.channel.send(await osiasFunc.getLoLInfo(command));
   } else if(command.startsWith('롤상태')){
     msg.channel.send(await osiasFunc.getLolStatus(command));
+  } else if(command.startsWith('관전')){
+    
+  } else if(command.startsWith('봇초대' ||'초대')){
+    msg.channel.send("https://discord.com/oauth2/authorize?client_id=710395761682153533&permissions=8&scope=bot");
   } else if (command.startsWith('바보')) {
     let name = commandList[1];
     if (name) {
@@ -44,7 +50,7 @@ client.on('message', async msg => {
   } else if (command.startsWith('비트코인')) {
     msg.reply(await osiasFunc.getCoin(commandList));
   } else if (command.startsWith('플레')) {
-    msg.reply('<:2482_Platinium:818816782088798239>');
+    msg.reply('<:Platinium:818816782088798239>');
   }
 });
 

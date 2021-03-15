@@ -28,10 +28,19 @@ const getSummonerRankTft = async (lolid) =>
     .then(res => res.data)
     .catch(err => err);
 
+//롤 서버 Status
 const getLolStatus = async () =>
     await axios.get(`https://kr.api.riotgames.com/lol/status/v4/platform-data?api_key=${RIOT_KEY}`)
     .then(res => res.data)
     .catch(err=>err);
+
+//롤 관전
+const getLolSpectator = async(lolid) =>
+    await axios.get(`https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${lolid}?api_key=`)
+    .then(res => res.data)
+    .catch(err =>err);
+
+
 
 
 function printTierEmoji(tier){
@@ -94,7 +103,7 @@ function makeDiscordEmbed(nickname, summonerInfo, summonerRank, summonerInfoTft,
             'author': {
                 'name': nickname,
                 'url': `https://www.op.gg/summoner/userName=${urlencode(nickname)}`,
-                'icon_url': 'https://cdn.discordapp.com/embed/avatars/0.png'
+                'icon_url': 'https://ww.namu.la/s/c697070bee957de3acbbf033eb001ac7705b9703e48813bc8b7ccaa0efb22d712a564b9d0c8580148a138b0761720fe6f2d9d82192ab14eb7ca7e5b1f8b38bff8f00aaa28bd0b9929715cbf92350e8d6fb705e7630086aaced366e7758fcd05b'
             },
             'fields': [{
                     'name': '개인 랭크',
@@ -165,5 +174,6 @@ module.exports = {
     getSummonerRankTft,
     makeDiscordEmbed,
     getLolStatus,
-    printLolStatus
+    printLolStatus,
+    getLolSpectator
 }
