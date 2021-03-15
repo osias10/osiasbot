@@ -1,5 +1,6 @@
 const axios = require('axios');
 const urlencode = require('urlencode');
+const fs=require('fs');
 
 const {
     RIOT_KEY,
@@ -82,6 +83,34 @@ function calIngameTime(startTime){
 
     return (`${Math.floor(diffMin)}분 ${Math.floor(diffSec-(Math.floor(diffMin)*60))}초`);
 }
+
+
+
+/*
+
+function sendLolSpectator(lolSpectator){
+  fs.readFile('./../lolSpector.bat','utf8',function (err,data){
+      if (err) return console.log(err);
+      else{
+          let result = data.replace(/encryptionKey/g, lolSpectator.observers.encryptionKey);
+          let result2 = result.replace(/gameId/g, lolSpectator.gameId);
+          fs.writeFile(someFile,result2,'utf8',function(err){
+              if (err) return console.log(err);
+          })
+      }
+  })
+}
+*/
+async function sendLolSpectator(lolSpectator){
+    let data= fs.readFileSync('./src/files/lolSpector.bat','utf8');
+    let result = data.replace(/encryptionKey/g, lolSpectator.observers.encryptionKey);
+    
+    let result2 = result.replace(/gameId/g, lolSpectator.gameId);
+    
+    fs.writeFileSync(`./src/files/lolSpector-${lolSpectator.gameId}.bat`,result2,'utf8');
+    return (`./src/files/lolSpector-${lolSpectator.gameId}.bat`);
+}
+
 
 
 function printTierEmoji(tier){
@@ -279,5 +308,6 @@ module.exports = {
     getLolStatus,
     printLolStatus,
     getLolSpectator,
-    printInGame
+    printInGame,
+    sendLolSpectator
 }

@@ -37,7 +37,15 @@ client.on('message', async msg => {
   } else if(command.startsWith('롤상태')||command.startsWith('롤서버')){
     msg.channel.send(await osiasFunc.getLolStatus(command));
   } else if(command.startsWith('롤관전')){
-    msg.channel.send(await osiasFunc.getLolIngame(command));
+    const lolIngame = (await osiasFunc.getLolIngame(command))
+    //await msg.channel.send(`${lolIngame[0]}`,{files:[lolIngame[1]]});
+    //let embed = lolIngame[0];
+    //await msg.channel.send({embed,files:[lolIngame[1]]});
+    await msg.channel.send(lolIngame[0]);
+    if (lolIngame[1]!=undefined) {await msg.channel.send('관전파일', {files:[lolIngame[1]]});}
+    
+    osiasFunc.deleteSpectatorFile(lolIngame[1]);
+    
   } else if(command.startsWith('봇초대' ||'초대')){
     msg.channel.send("https://discord.com/oauth2/authorize?client_id=710395761682153533&permissions=8&scope=bot");
   } else if (command.startsWith('바보')) {
