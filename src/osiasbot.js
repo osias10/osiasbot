@@ -34,10 +34,10 @@ client.on('message', async msg => {
     msg.reply(`https://lolbalance.osias.duckdns.org`);
   } else if (command.startsWith('롤정보')) {
     msg.channel.send(await osiasFunc.getLoLInfo(command));
-  } else if(command.startsWith('롤상태')){
+  } else if(command.startsWith('롤상태')||command.startsWith('롤서버')){
     msg.channel.send(await osiasFunc.getLolStatus(command));
-  } else if(command.startsWith('관전')){
-    
+  } else if(command.startsWith('롤관전')){
+    msg.channel.send(await osiasFunc.getLolIngame(command));
   } else if(command.startsWith('봇초대' ||'초대')){
     msg.channel.send("https://discord.com/oauth2/authorize?client_id=710395761682153533&permissions=8&scope=bot");
   } else if (command.startsWith('바보')) {

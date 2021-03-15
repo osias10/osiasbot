@@ -35,12 +35,41 @@ const getLolStatus = async () =>
     .catch(err=>err);
 
 //롤 관전
+//gameQueueConfigId 430: 일반 , 420: 랭크 450: 무작위
 const getLolSpectator = async(lolid) =>
-    await axios.get(`https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${lolid}?api_key=`)
+    await axios.get(`https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${lolid['id']}?api_key=${RIOT_KEY}`)
     .then(res => res.data)
     .catch(err =>err);
 
+function printGameType(lolSpectator){
+    if (lolSpectator){
+        switch (lolSpectator.gameQueueConfigId){
+            case 430 : return "일반";
+            case 420 : return "랭크";
+            case 450 : return "무작위 총력전";
+        }
+    }
+    else return ("게임정보가 없습니다");
+}
+function printGameMode(lolSpectator){
+    if (lolSpectator){
+        switch (lolSpectator.gameMode){
+            case "CLASSIC" : return "소환사의 협곡";
+            case "ARAM" : return ("칼바람 나락");
+        }
+    }
+    else return ["정보가 없습니다.",0];
+}
 
+function printGameMap(lolSpectator){
+    if (lolSpectator){
+        switch (lolSpectator.gameMode){
+            case "CLASSIC" : return (11);
+            case "ARAM" : return (12);
+        }
+    }
+    else return ["정보가 없습니다.",0];
+}
 
 
 function printTierEmoji(tier){
@@ -167,6 +196,68 @@ function printLolStatus(lolStatus){
     return lolStatusEmbed;
 }
 
+//blueteam : 100 redTeam: 200
+function printInGame(lolIngame){
+    let blueTeam='';
+    let redTeam='';
+    
+    let lolIngameEmbed = {
+        'content': '',
+        'embed': {
+            'title': printGameType(lolIngame),
+            'description': '',
+            'url': ` `,
+            'color': 16724889,
+            'footer': {
+                'icon_url': '',
+                'text': 'KR'
+            },
+            'thumbnail': {
+                'url': `https://ddragon.leagueoflegends.com/cdn/6.8.1/img/map/map${printGameMap(lolIngame)}.png`
+            },
+            'image': {
+                'url': ' '
+            },
+            'author': {
+                'name': (printGameMode(lolIngame)),
+                'url': `https://matchhistory.kr.leagueoflegends.com/ko/#match-details/KR/${lolIngame.gameId}`,
+                'icon_url': 'https://ww.namu.la/s/c697070bee957de3acbbf033eb001ac7705b9703e48813bc8b7ccaa0efb22d712a564b9d0c8580148a138b0761720fe6f2d9d82192ab14eb7ca7e5b1f8b38bff8f00aaa28bd0b9929715cbf92350e8d6fb705e7630086aaced366e7758fcd05b'
+            },
+            'fields': [
+                
+            ],
+        }
+    };
+    const blueTeams = lolIngame.participants.filter(obj => obj['teamId']===100);
+    const redTeams = lolIngame.participants.filter(obj => obj['teamId']===200);
+    //console.log(blueTeams);
+
+    if(blueTeams.length>0){
+        for (let i=0;i<blueTeams.length;i++){
+            blueTeam += blueTeams[i].summonerName+"\n";
+            
+        }
+    }
+    else {blueTeam = "소환사가 존재하지 않습니다."};
+    
+    if(redTeams.length>0){
+        for (let j=0;j<redTeams.length;j++){
+            redTeam += redTeams[j].summonerName+"\n";
+        }
+    }
+    else {redTeam = "소환사가 존재하지 않습니다."};
+    
+    
+    
+    (lolIngameEmbed.embed.fields).push({'name': '블루팀', 'value': blueTeam, 'inline':true});
+    (lolIngameEmbed.embed.fields).push({'name': '레드팀', 'value': redTeam, 'inline':true});
+    
+    return lolIngameEmbed;
+
+
+}
+
+
 module.exports = {
     getSummonerInfo,
     getSummonerRank,
@@ -175,5 +266,6 @@ module.exports = {
     makeDiscordEmbed,
     getLolStatus,
     printLolStatus,
-    getLolSpectator
+    getLolSpectator,
+    printInGame
 }
