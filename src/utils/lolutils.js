@@ -58,7 +58,7 @@ function printGameMode(lolSpectator){
             case "ARAM" : return ("칼바람 나락");
         }
     }
-    else return ["정보가 없습니다.",0];
+    else return "정보가 없습니다.";
 }
 
 function printGameMap(lolSpectator){
@@ -68,7 +68,19 @@ function printGameMap(lolSpectator){
             case "ARAM" : return (12);
         }
     }
-    else return ["정보가 없습니다.",0];
+    else return 0;
+}
+//게임 경과 시간 계산
+function calIngameTime(startTime){
+    
+    const currentTime = new Date().getTime();
+    const diffTime= currentTime-startTime;
+    const diffSec = diffTime/1000;
+    const diffMin = diffTime/1000/60;
+
+    console.log(currentTime);
+
+    return (`${Math.floor(diffMin)}분 ${Math.floor(diffSec-(Math.floor(diffMin)*60))}초`);
 }
 
 
@@ -204,7 +216,7 @@ function printInGame(lolIngame){
     let lolIngameEmbed = {
         'content': '',
         'embed': {
-            'title': printGameType(lolIngame),
+            'title': `${printGameType(lolIngame)}\t${calIngameTime(lolIngame.gameStartTime)}`,
             'description': '',
             'url': ` `,
             'color': 16724889,
