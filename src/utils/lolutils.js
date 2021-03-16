@@ -90,13 +90,30 @@ async function printSpectatorTier(id,gameType){
     const tier = await getSummonerRank(id);
     if (gameType === 440){
         const flexRank = tier.filter(obj => obj['queueType'] === 'RANKED_FLEX_SR');
-        if (flexRank[0] !=undefined) return (`${(flexRank[0].tier)[0]}${flexRank[0].rank}`);
+        if (flexRank[0] !=undefined){
+            switch((flexRank[0].tier)){
+                case 'CHALLENGER' : return 'CH'
+                case 'GRANDMASTER' : return 'GM';
+                default : return (`${(flexRank[0].tier)[0]}${flexRank[0].rank}`);
+            }
+        }
+             
         else return('Un');
     }
     else {
         const soloRank = tier.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
         
-        if(soloRank[0] !=undefined) return(`${(soloRank[0].tier)[0]}${soloRank[0].rank}`);
+        if(soloRank[0] !=undefined){
+            switch((soloRank[0].tier)){
+                case 'CHALLENGER' : return 'CH'
+                case 'GRANDMASTER' : return 'GM';
+                default : return(`${(soloRank[0].tier)[0]}${soloRank[0].rank}`);
+            }
+
+             
+
+
+        }
         else return('Un');
     }
 }
