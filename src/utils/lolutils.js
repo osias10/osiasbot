@@ -15,7 +15,7 @@ const getSummonerInfo = async (nickname) =>
     .catch(err => err);
 
 const getSummonerRank = async (lolid) =>
-    await axios.get(`https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${lolid['id']}?api_key=${RIOT_KEY}`)
+    await axios.get(`https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${lolid}?api_key=${RIOT_KEY}`)
     .then(res => res.data)
     .catch(err => err);
 
@@ -25,7 +25,7 @@ const getSummonerInfoTft = async (nickname) =>
     .catch(err => err);
 
 const getSummonerRankTft = async (lolid) =>
-    await axios.get(`https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/${lolid['id']}?api_key=${RIOT_TFT_KEY}`)
+    await axios.get(`https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/${lolid}?api_key=${RIOT_TFT_KEY}`)
     .then(res => res.data)
     .catch(err => err);
 
@@ -46,7 +46,8 @@ function printGameType(lolSpectator){
     if (lolSpectator){
         switch (lolSpectator.gameQueueConfigId){
             case 430 : return "일반";
-            case 420 : return "랭크";
+            case 420 : return "솔로 랭크";
+            case 440 : return "자유 랭크";
             case 450 : return "무작위 총력전";
         }
     }
@@ -84,7 +85,21 @@ function calIngameTime(startTime){
     return (`${Math.floor(diffMin)}분 ${Math.floor(diffSec-(Math.floor(diffMin)*60))}초`);
 }
 
-
+//소환사 티어 알림 (관전)
+async function printSpectatorTier(id,gameType){
+    const tier = await getSummonerRank(id);
+    if (gameType === 440){
+        const flexRank = tier.filter(obj => obj['queueType'] === 'RANKED_FLEX_SR');
+        if (flexRank[0] !=undefined) return (`${(flexRank[0].tier)[0]}${flexRank[0].rank}`);
+        else return('Un');
+    }
+    else {
+        const soloRank = tier.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
+        
+        if(soloRank[0] !=undefined) return(`${(soloRank[0].tier)[0]}${soloRank[0].rank}`);
+        else return('Un');
+    }
+}
 
 /*
 
@@ -238,7 +253,7 @@ function printLolStatus(lolStatus){
 }
 
 //blueteam : 100 redTeam: 200
-function printInGame(lolIngame){
+async function printInGame(lolIngame){
     let blueTeam='';
     let redTeam='';
     
@@ -272,23 +287,30 @@ function printInGame(lolIngame){
     const blueTeams = lolIngame.participants.filter(obj => obj['teamId']===100);
     const redTeams = lolIngame.participants.filter(obj => obj['teamId']===200);
     //console.log(blueTeams);
-
+    
     if(blueTeams.length>0){
+        let blueTier='Un';
         for (let i=0;i<blueTeams.length;i++){
-            blueTeam += blueTeams[i].summonerName+"\n";
+            blueTier = await printSpectatorTier(blueTeams[i].summonerId,lolIngame.gameQueueConfigId);
+            blueTeam += `\`${blueTier}\` ${blueTeams[i].summonerName}\n`;
             
         }
     }
     else {blueTeam = "소환사가 존재하지 않습니다."};
-    
+    let redTier='Un';
     if(redTeams.length>0){
+        
         for (let j=0;j<redTeams.length;j++){
-            redTeam += redTeams[j].summonerName+"\n";
+            redTier =  await printSpectatorTier(redTeams[j].summonerId,lolIngame.gameQueueConfigId);
+            redTeam += `\`${redTier}\` ${redTeams[j].summonerName}\n`;
+            
+            
         }
     }
     else {redTeam = "소환사가 존재하지 않습니다."};
     
     
+
     
     (lolIngameEmbed.embed.fields).push({'name': '블루팀', 'value': blueTeam, 'inline':true});
     (lolIngameEmbed.embed.fields).push({'name': '레드팀', 'value': redTeam, 'inline':true});
