@@ -1,0 +1,54 @@
+div#profile
+{
+    width:100 ;
+    height:auto;
+    
+    margin-right: 200px;
+}
+div#summonerStatus
+{
+    width:800px ;
+    height:250px;
+    
+    
+}
+
+div#nickName
+{
+    margin-left: 150px;
+   
+}
+div#soloRank_icon{
+    margin-top: -20px;
+    float:left ;
+}
+div#rankStatus{
+    width:500px;
+    height:200px;
+    margin-left: 250px; 
+}
+div#soloRank{
+    width:100px;
+    height:100px;
+    float:left;
+}
+div#flexRank_icon{
+    margin-top: -20px;
+    float:left ;
+}
+div#flexRank{
+    width:100px;
+    height:100px;
+    float:left;
+    margin-left: 50px; 
+}
+div#tftRank_icon{
+    margin-top: -20px;
+    float:left ;
+}
+div#tftRank{
+    width:100px;
+    height:100px;
+    float:left;
+    margin-left: 50px; 
+}

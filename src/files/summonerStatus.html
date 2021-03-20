@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<head>
+<link rel='stylesheet' type='text/css' href='./statusCss.css'>
+
+</head>
+<body>
+
+    <h2>League Of Legend 프로필 정보</h2>
+    <div id=summonerStatus>
+        <div style="margin:30px" id="profile"></div>
+        <div id="nickName"></div>
+    
+        <div id="rankStatus">
+            <div id="soloRank">
+                <p style="text-align: center" ;>솔로 랭크</p>
+                <div id="soloRank_icon"></div>
+                <div style="text-align: center" id="soloRank_tier">Gold 4 3lp</div>
+                <div style="text-align: center" id="soloRank_rate">승률</div>
+            </div>
+            <div id="flexRank">
+                <p style="text-align: center" ;>자유 랭크</p>
+                <div id="flexRank_icon"></div>
+                <div style="text-align: center" id="flexRank_tier">Gold 4 3lp</div>
+                <div style="text-align: center" id="flexRank_rate">승률</div>
+            </div>
+            <div id="tftRank">
+                <p style="text-align: center" ;>TFT 랭크</p>
+                <div id="tftRank_icon"></div>
+                <div style="text-align: center" id="tftRank_tier">Gold 4 3lp</div>
+                <div style="text-align: center" id="tftRank_rate">승률</div>
+            </div>
+    
+    
+        </div>
+    </div>
+
+   
+
+</body>
+
+<script>
+    var profile_icon = "http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png";
+    let nickName = `테스트 닉네임`;
+    let solRank_icon = "https://opgg-static.akamaized.net/images/medals/default.png?image=q_auto:best&v=1";
+    let flexRank_icon = "https://opgg-static.akamaized.net/images/medals/silver_2.png?image=q_auto:best&v=1";
+    let tftRank_icon = "https://opgg-static.akamaized.net/images/medals/platinum_4.png?image=q_auto:best&v=1";
+    </script>
+ <script>
+    //https://www.javaer101.com/article/2099141.html
+    //document.getElementById("my-div").innerHTML = "<img src=" + baseurl + ' width=30 height=30 alt=그림 설명'>";
+    document.getElementById("profile").innerHTML = `<img src= ${profile_icon} width=100 height=auto align=left alt=프로필 이미지>`;
+    document.getElementById("nickName").innerText = `${nickName}`;
+    document.getElementById("soloRank_icon").innerHTML = `<img src= ${solRank_icon} width=100 height=auto alt=솔로랭크 이미지>`;
+    document.getElementById("flexRank_icon").innerHTML = `<img src= ${flexRank_icon} width=100 height=auto alt=솔로랭크 이미지>`;
+    document.getElementById("tftRank_icon").innerHTML = `<img src= ${tftRank_icon} width=100 height=auto alt=솔로랭크 이미지>`;
+    //document.getElementById("my-div2").innerHTML = "<img src='" + baseurl + "'>";
+
+
+</script>   
+    
