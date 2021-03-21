@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <script type="application/javascript">
+        function draw(){
+            const profileImgLink = `http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`
+            
+            const nickName="테스트 닉네임";
+            
+            //let profile_img=new Image();
+            //profile_img.src=`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`
+            profile_img=imgLoad(profileImgLink);
+
+            var canvas = document.getElementById("canvas");
+                
+            var ctx = canvas.getContext("2d");
+            let prifile_size=100;
+            ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font='bold 20pt  Gulim';
+            ctx.fillText(nickName,150,50);
+
+                
+            profile_img.onload = function(){
+                ctx.drawImage(profile_img,30, 30, 100, 100);
+
+            }
+ 
+                    
+                
+        }
+        function imgLoad(imgLink){
+            let img=new Image();
+            img.src=imgLink;
+            return img;
+        }
+    </script>
+</head>
+
+<body>
+    <body onload="draw();">
+    <canvas id="canvas" width="700" height="300">
+        current stock price : ddd
+    </canvas>
+
+</body>
