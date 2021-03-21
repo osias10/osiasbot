@@ -20,11 +20,13 @@
   "homepage": "https://github.com/osias10/osiasbot#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "canvas": "^2.7.0",
     "cheerio": "^1.0.0-rc.5",
     "discord.js": "^12.5.1",
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "nodemon": "^2.0.7",
+    "os": "^0.1.1",
     "request": "^2.88.2",
     "urlencode": "^1.1.0"
   }

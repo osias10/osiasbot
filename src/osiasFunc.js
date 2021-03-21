@@ -1,6 +1,13 @@
 const lolutils = require('./utils/lolutils');
 const coinutils = require('./utils/coinutils');
 const fs=require('fs');
+const summonerImg= require('./utils/summonerStatus');
+var os = require('os');
+
+const tmpdir = os.tmpdir();
+const summonerImgName=`test.png`;
+const filepath = path.join(tmpdir,summonerImgName);
+
 
 
 const getLoLInfo = async (command) => {
@@ -86,6 +93,30 @@ const getCoin = async (command) => {
     }
 }
 
+const getLoLInfoImg = async (command) => {
+    let result;
+    let nickname = command.substring(command.indexOf(' ') + 1);
+    
+    let summoner = await lolutils.getSummonerInfo(nickname);
+    let summonertier = await lolutils.getSummonerRank(summoner.id);
+    let nicknametft = await lolutils.getSummonerInfoTft(nickname);
+    let summonertfttier = await lolutils.getSummonerRankTft(nicknametft.id);
+    
+    if(summoner.response!=undefined && summoner.response.status===404){
+        result = "```해당 소환사 정보가 존재하지 않습니다.```";
+        
+    }
+    else{
+        statusImgStream = summonerImg.makeLolStatusImg(nickname, summoner, summonertier, nicknametft, summonertfttier);
+        const statusImgOut = fs.createWriteStream(filepath);
+        console.log(filepath);
+        statusImgStream.pipe(statusImgOut);
+        
+        
+    }
+    return result;
+}
+
 module.exports = {
-    getLoLInfo, getCoin,getLolStatus, printHelp, getLolIngame, deleteSpectatorFile
+    getLoLInfo, getCoin,getLolStatus, printHelp, getLolIngame, deleteSpectatorFile, getLoLInfoImg
 };

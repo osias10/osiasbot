@@ -1,8 +1,24 @@
-<!DOCTYPE html>
-<head>
-    <script type="application/javascript">
-        function draw(){
-            let profileImgLink = `http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`;
+const tmpdir = os.tmpdir();
+const filename=`test.png`;
+const filepath = path.join(tmpdir,filename);
+const {createCanvas,Image}= require("canvas");
+const fs=require("fs");
+
+
+/*
+const bgColor=randomColor({
+    luminosity:'dark',
+});
+*/
+
+
+const filepath=path.join(tmpdir,filename);
+
+
+
+function makeLolStatusImg(nickname, summoner, summonertier, nicknametft, summonertfttier){
+
+    let profileImgLink = `http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`;
             let soloRankImgLink=`https://opgg-static.akamaized.net/images/medals/default.png?image=q_auto:best&v=1`;
             const nickName="테스트 닉네임";
             
@@ -11,9 +27,9 @@
             profile_img=imgLoad(profileImgLink);
             let soloRank_icon = imgLoad(soloRankImgLink);
 
-            var canvas = document.getElementById("canvas");
+            let canvas = document.getElementById("canvas");
                 
-            var ctx = canvas.getContext("2d");
+            let ctx = canvas.getContext("2d");
             let prifile_size=100;
             ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -42,29 +58,24 @@
                 ctx.drawImage(imgLoad(soloRankImgLink),550,100,120,120);
 
             }
- 
-                    
+
+    return(canvas.createPNGStream());
+    
+    
                 
-        }
-        function imgLoad(imgLink){
-            let img=new Image();
-            img.src=imgLink;
-            return img;
-        }
-        function drawText(ctx,textFont,color,text,x,y){
-            ctx.textAlign='center';
-            ctx.font=textFont;
-            ctx.fillStyle = color;
-            ctx.fillText(text,x,y);
-        }
-    </script>
-</head>
+}
+function imgLoad(imgLink){
+    let img=new Image();
+    img.src=imgLink;
+    return img;
+}
+function drawText(ctx,textFont,color,text,x,y){
+    ctx.textAlign='center';
+    ctx.font=textFont;
+    ctx.fillStyle = color;
+    ctx.fillText(text,x,y);
+}
 
-<body>
-    <body onload="draw();">
-    <canvas id="canvas" width="700" height="300">
-        <!--<canvas id="canvas" width="1215" height="717">-->
-        current stock price : ddd
-    </canvas>
-
-</body>
+module.exports = {
+    makeLolStatusImg
+};
