@@ -6,7 +6,7 @@ var os = require('os');
 
 const tmpdir = os.tmpdir();
 const summonerImgName=`test.png`;
-const filepath = path.join(tmpdir,summonerImgName);
+//const filepath = path.join(tmpdir,summonerImgName);
 
 
 
@@ -95,6 +95,7 @@ const getCoin = async (command) => {
 
 const getLoLInfoImg = async (command) => {
     let result;
+    let resultImg;
     let nickname = command.substring(command.indexOf(' ') + 1);
     
     let summoner = await lolutils.getSummonerInfo(nickname);
@@ -107,14 +108,17 @@ const getLoLInfoImg = async (command) => {
         
     }
     else{
+        /*
+
         statusImgStream = summonerImg.makeLolStatusImg(nickname, summoner, summonertier, nicknametft, summonertfttier);
         const statusImgOut = fs.createWriteStream(filepath);
         console.log(filepath);
         statusImgStream.pipe(statusImgOut);
-        
+        */
+        resultImg= await summonerImg.makeLolStatusImg(nickname, summoner, summonertier, nicknametft, summonertfttier);
         
     }
-    return result;
+    return [result,resultImg];
 }
 
 module.exports = {

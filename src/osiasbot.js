@@ -34,6 +34,15 @@ client.on('message', async msg => {
     msg.reply(`https://lolbalance.osias.duckdns.org`);
   } else if (command.startsWith('롤정보')) {
     msg.channel.send(await osiasFunc.getLoLInfo(command));
+  } else if(command.startsWith('롤프로필')){
+    const summonerImg=await osiasFunc.getLoLInfoImg(command);
+    if (summonerImg[1]!=undefined){
+      await msg.channel.send('', {files:[summonerImg[1]]});
+    }
+    else{
+      msg.channel.send(summonerImg[0]);
+    }
+    
   } else if(command.startsWith('롤상태')||command.startsWith('롤서버')){
     msg.channel.send(await osiasFunc.getLolStatus(command));
   } else if(command.startsWith('롤관전')){
