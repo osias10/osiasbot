@@ -51,6 +51,11 @@ const getChampionList = async()=>
     .then(res=>res.data)
     .catch(err =>err);
 
+const getChampionListFull = async()=>
+    await axios.get('http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/championFull.json')
+    .then(res=>res.data)
+    .catch(err =>err);
+
 
 function printGameType(lolSpectator){
     if (lolSpectator){
@@ -360,5 +365,6 @@ module.exports = {
     printInGame,
     sendLolSpectator,
     getSummonerChampion,
-    getChampionList
+    getChampionList,
+    getChampionListFull
 }

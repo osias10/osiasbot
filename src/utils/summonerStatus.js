@@ -22,7 +22,7 @@ const LPToString = (rank) => rank && rank.length > 0 ? `${rank[0].leaguePoints}L
 
 
 
-async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerInfoTft, summonerRankTft,summonerChampion,championList){
+async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerInfoTft, summonerRankTft,summonerChampion,championList,championListFull){
 
     const soloRank = summonerRank.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
     const summonerSoloRank = rankToString(soloRank);
@@ -34,21 +34,30 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
 
     const summonerTFTRank = rankToString(summonerRankTft);
 
+    //const summonerMost1Id=summonerChampion[0].championId;
+    //const champions=Object.values(championList.data);
+    //const summonerMost1C = champions.filter(obj=>obj['key']===String(summonerMost1Id));
     const summonerMost1Id=summonerChampion[0].championId;
-    const summonerMost1C=championList.filter(obj=>obj['key']===summonerMost1Id);
-    console.log(summonerMoast1C);
+    const champions=Object.values(championListFull.data);
+    const summonerMost1C = champions.filter(obj=>obj['key']===String(summonerMost1Id));
+    
+    const skinList=(summonerMost1C[0].skins).length;
+    const randomSkin=getRandomInt(0,skinList);
+    const backgroundSkin= summonerMost1C[0].skins[randomSkin].num;
+    console.log(backgroundSkin);
+    
     
 
     let profileImgLink = `http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`;
             let soloRankImgLink=`https://opgg-static.akamaized.net/images/medals/default.png?image=q_auto:best&v=1`;
             //const nickName="테스트 닉네임";
-            const backgroundImg=`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg`;
+            const backgroundImg=`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${summonerMost1C[0].id}_${backgroundSkin}.jpg`;
             //let profile_img=new Image();
             //profile_img.src=`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`
             //profile_img=imgLoad(profileImgLink);
             let soloRank_icon = imgLoad(soloRankImgLink);
-
-            let canvas = createCanvas(700,300);
+            const textColor = 'black';
+            let canvas = createCanvas(700,412);
                 
             let ctx = canvas.getContext("2d");
             let prifile_size=100;
@@ -57,28 +66,57 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             //ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.font='bold 15pt  Gulim';
-            ctx.fillStyle = "white";
+            ctx.fillStyle = textColor;
+            
             ctx.fillText(nickname,150,50);
             
-            drawText(ctx,"bold 12pt  Gulim",'white','솔로 랭크',308,105);
-            drawText(ctx,"bold 12pt  Gulim",'white','자유 랭크',459,105);
-            drawText(ctx,"bold 12pt  Gulim",'white','TFT 랭크',610,105);
+            drawText(ctx,"bold 12pt  Gulim",textColor,'솔로 랭크',308,105);
+            drawText(ctx,"bold 12pt  Gulim",textColor,'자유 랭크',459,105);
+            drawText(ctx,"bold 12pt  Gulim",textColor,'TFT 랭크',610,105);
 
-            drawText(ctx,"bold 12pt  Gulim",'white',`${summonerSoloRank}`,310,230);
-            drawText(ctx,"bold 12pt  Gulim",'white',`${summonerFlexRank}`,460,230);
-            drawText(ctx,"bold 12pt  Gulim",'white',`${summonerTFTRank}`,610,230);
+            drawText(ctx,"bold 12pt  Gulim",textColor,`${summonerSoloRank}`,310,230);
+            drawText(ctx,"bold 12pt  Gulim",textColor,`${summonerFlexRank}`,460,230);
+            drawText(ctx,"bold 12pt  Gulim",textColor,`${summonerTFTRank}`,610,230);
 
-            drawText(ctx,"bold 12pt  Gulim",'white',`${LPToString(soloRank)}`,310,248);
-            drawText(ctx,"bold 12pt  Gulim",'white',`${LPToString(flexRank)}`,460,248);
-            drawText(ctx,"bold 12pt  Gulim",'white',`${LPToString(summonerRankTft)}`,610,248);
+            drawText(ctx,"bold 12pt  Gulim",textColor,`${LPToString(soloRank)}`,310,248);
+            drawText(ctx,"bold 12pt  Gulim",textColor,`${LPToString(flexRank)}`,460,248);
+            drawText(ctx,"bold 12pt  Gulim",textColor,`${LPToString(summonerRankTft)}`,610,248);
             
-            drawText(ctx,"bold 10pt  Gulim",'white',`${printGameCounts(soloRank)}`,310,270);
-            drawText(ctx,"bold 10pt  Gulim",'white',`${printGameCounts(flexRank)}`,460,270);
-            drawText(ctx,"bold 10pt  Gulim",'white',`${printGameCounts(summonerRankTft)}`,610,270);
+            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGameCounts(soloRank)}`,310,270);
+            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGameCounts(flexRank)}`,460,270);
+            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGameCounts(summonerRankTft)}`,610,270);
 
-            drawText(ctx,"bold 10pt  Gulim",'white',`${printGamePer(soloRank)}`,310,290);
-            drawText(ctx,"bold 10pt  Gulim",'white',`${printGamePer(flexRank)}`,460,290);
-            drawText(ctx,"bold 10pt  Gulim",'white',`${printGamePer(summonerRankTft)}`,610,290);
+            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGamePer(soloRank)}`,310,290);
+            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGamePer(flexRank)}`,460,290);
+            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGamePer(summonerRankTft)}`,610,290);
+
+            const textColor2='white'
+            ctx.textAlign='left';
+            ctx.font=' 15pt  Gulim';
+            ctx.fillStyle = textColor2;
+            
+            ctx.fillText(nickname,150,50);
+            
+            drawText(ctx,"12pt  Gulim",textColor2,'솔로 랭크',308,105);
+            drawText(ctx," 12pt  Gulim",textColor2,'자유 랭크',459,105);
+            drawText(ctx," 12pt  Gulim",textColor2,'TFT 랭크',610,105);
+
+            drawText(ctx," 12pt  Gulim",textColor2,`${summonerSoloRank}`,310,230);
+            drawText(ctx," 12pt  Gulim",textColor2,`${summonerFlexRank}`,460,230);
+            drawText(ctx," 12pt  Gulim",textColor2,`${summonerTFTRank}`,610,230);
+
+            drawText(ctx," 12pt  Gulim",textColor2,`${LPToString(soloRank)}`,310,248);
+            drawText(ctx," 12pt  Gulim",textColor2,`${LPToString(flexRank)}`,460,248);
+            drawText(ctx," 12pt  Gulim",textColor2,`${LPToString(summonerRankTft)}`,610,248);
+            
+            drawText(ctx," 10pt  Gulim",textColor2,`${printGameCounts(soloRank)}`,310,270);
+            drawText(ctx," 10pt  Gulim",textColor2,`${printGameCounts(flexRank)}`,460,270);
+            drawText(ctx," 10pt  Gulim",textColor2,`${printGameCounts(summonerRankTft)}`,610,270);
+
+            drawText(ctx," 10pt  Gulim",textColor2,`${printGamePer(soloRank)}`,310,290);
+            drawText(ctx," 10pt  Gulim",textColor2,`${printGamePer(flexRank)}`,460,290);
+            drawText(ctx," 10pt  Gulim",textColor2,`${printGamePer(summonerRankTft)}`,610,290);
+            
 
             /*
             profile_img.onload = function(){
@@ -128,6 +166,7 @@ function drawText(ctx,textFont,color,text,x,y){
     ctx.textAlign='center';
     ctx.font=textFont;
     ctx.fillStyle = color;
+    
     ctx.fillText(text,x,y);
 }
 function printTierEmblem(tier){
@@ -162,6 +201,12 @@ function printGamePer(Rank){
     }
     else return "";
 }
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+}
+
 module.exports={
     makeLolStatusImg
 }
