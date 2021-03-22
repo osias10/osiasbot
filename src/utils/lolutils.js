@@ -41,6 +41,16 @@ const getLolSpectator = async(lolid) =>
     await axios.get(`https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${lolid['id']}?api_key=${RIOT_KEY}`)
     .then(res => res.data)
     .catch(err =>err);
+const getSummonerChampion = async(lolid) =>
+    await axios.get(`https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${lolid}?api_key=${RIOT_KEY}`)
+    .then(res => res.data)
+    .catch(err =>err);
+
+const getChampionList = async()=>
+    await axios.get('http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion.json')
+    .then(res=>res.data)
+    .catch(err =>err);
+
 
 function printGameType(lolSpectator){
     if (lolSpectator){
@@ -348,5 +358,7 @@ module.exports = {
     printLolStatus,
     getLolSpectator,
     printInGame,
-    sendLolSpectator
+    sendLolSpectator,
+    getSummonerChampion,
+    getChampionList
 }

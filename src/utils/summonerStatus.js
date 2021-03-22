@@ -6,7 +6,7 @@ const filename=`test.png`;
 const {createCanvas,Image,loadImage}= require("canvas");
 const fs=require("fs");
 const { resolve } = require("path");
-const filepath='./src/files/tmp/test.png';
+const filepath='./src/files/tmp/';
 const emblemPath='./src/files/lolFiles/ranked-emblems/';
 
 /*
@@ -22,7 +22,7 @@ const LPToString = (rank) => rank && rank.length > 0 ? `${rank[0].leaguePoints}L
 
 
 
-async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerInfoTft, summonerRankTft){
+async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerInfoTft, summonerRankTft,summonerChampion,championList){
 
     const soloRank = summonerRank.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
     const summonerSoloRank = rankToString(soloRank);
@@ -34,10 +34,15 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
 
     const summonerTFTRank = rankToString(summonerRankTft);
 
+    const summonerMost1Id=summonerChampion[0].championId;
+    const summonerMost1C=championList.filter(obj=>obj['key']===summonerMost1Id);
+    console.log(summonerMoast1C);
+    
+
     let profileImgLink = `http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`;
             let soloRankImgLink=`https://opgg-static.akamaized.net/images/medals/default.png?image=q_auto:best&v=1`;
             //const nickName="테스트 닉네임";
-            
+            const backgroundImg=`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg`;
             //let profile_img=new Image();
             //profile_img.src=`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`
             //profile_img=imgLoad(profileImgLink);
@@ -47,8 +52,9 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
                 
             let ctx = canvas.getContext("2d");
             let prifile_size=100;
-            ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            //ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
+            ctx.drawImage(await loadImage(backgroundImg),0,0,canvas.width,canvas.height);
+            //ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.font='bold 15pt  Gulim';
             ctx.fillStyle = "white";
@@ -107,8 +113,9 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
     */
    
     const buffer=canvas.toBuffer('image/png');
-    fs.writeFileSync(filepath,buffer);
-    return (filepath);
+    const summonerInfoPath= `${filepath}${nickname}.png`
+    fs.writeFileSync(summonerInfoPath,buffer);
+    return (summonerInfoPath);
     
                 
 }

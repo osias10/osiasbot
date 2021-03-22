@@ -42,6 +42,7 @@ client.on('message', async msg => {
     else{
       msg.channel.send(summonerImg[0]);
     }
+    osiasFunc.deleteSpectatorFile(summonerImg[1]);
     
   } else if(command.startsWith('롤상태')||command.startsWith('롤서버')){
     msg.channel.send(await osiasFunc.getLolStatus(command));
