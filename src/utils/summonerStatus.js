@@ -56,7 +56,7 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             //profile_img.src=`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/4561.png`
             //profile_img=imgLoad(profileImgLink);
             let soloRank_icon = imgLoad(soloRankImgLink);
-            const textColor = 'black';
+            const textColor = 'white';
             let canvas = createCanvas(700,412);
                 
             let ctx = canvas.getContext("2d");
@@ -93,7 +93,7 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(soloRank)}`,310,tierLocation+185);
             drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(flexRank)}`,460,tierLocation+185);
             drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(summonerRankTft)}`,610,tierLocation+185);
-
+/*
             const textColor2='white'
             ctx.textAlign='left';
             ctx.font=` 15pt  ${fontKind}`;
@@ -120,7 +120,7 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGamePer(soloRank)}`,310,tierLocation+185);
             drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGamePer(flexRank)}`,460,tierLocation+185);
             drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGamePer(summonerRankTft)}`,610,tierLocation+185);
-            
+            */
 
             /*
             profile_img.onload = function(){
