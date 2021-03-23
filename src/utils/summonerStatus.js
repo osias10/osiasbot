@@ -62,6 +62,8 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             let ctx = canvas.getContext("2d");
 
             const tierLocation = 205;
+            const fontKind = 'Nanum Gothic';
+
             let prifile_size=100;
             //ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
             ctx.drawImage(await loadImage(backgroundImg),0,0,canvas.width,canvas.height);
@@ -72,52 +74,52 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             
             ctx.fillText(nickname,150,50);
             
-            drawText(ctx,"bold 12pt  Gulim",textColor,'솔로 랭크',308,tierLocation);
-            drawText(ctx,"bold 12pt  Gulim",textColor,'자유 랭크',459,tierLocation);
-            drawText(ctx,"bold 12pt  Gulim",textColor,'TFT 랭크',610,tierLocation);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,'솔로 랭크',308,tierLocation);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,'자유 랭크',459,tierLocation);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,'TFT 랭크',610,tierLocation);
 
-            drawText(ctx,"bold 12pt  Gulim",textColor,`${summonerSoloRank}`,310,tierLocation+125);
-            drawText(ctx,"bold 12pt  Gulim",textColor,`${summonerFlexRank}`,460,tierLocation+125);
-            drawText(ctx,"bold 12pt  Gulim",textColor,`${summonerTFTRank}`,610,tierLocation+125);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${summonerSoloRank}`,310,tierLocation+125);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${summonerFlexRank}`,460,tierLocation+125);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${summonerTFTRank}`,610,tierLocation+125);
 
-            drawText(ctx,"bold 12pt  Gulim",textColor,`${LPToString(soloRank)}`,310,tierLocation+143);
-            drawText(ctx,"bold 12pt  Gulim",textColor,`${LPToString(flexRank)}`,460,tierLocation+143);
-            drawText(ctx,"bold 12pt  Gulim",textColor,`${LPToString(summonerRankTft)}`,610,tierLocation+143);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${LPToString(soloRank)}`,310,tierLocation+143);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${LPToString(flexRank)}`,460,tierLocation+143);
+            drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${LPToString(summonerRankTft)}`,610,tierLocation+143);
             
-            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGameCounts(soloRank)}`,310,tierLocation+165);
-            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGameCounts(flexRank)}`,460,tierLocation+165);
-            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGameCounts(summonerRankTft)}`,610,tierLocation+165);
+            drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGameCounts(soloRank)}`,310,tierLocation+165);
+            drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGameCounts(flexRank)}`,460,tierLocation+165);
+            drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGameCounts(summonerRankTft)}`,610,tierLocation+165);
 
-            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGamePer(soloRank)}`,310,tierLocation+185);
-            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGamePer(flexRank)}`,460,tierLocation+185);
-            drawText(ctx,"bold 10pt  Gulim",textColor,`${printGamePer(summonerRankTft)}`,610,tierLocation+185);
+            drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(soloRank)}`,310,tierLocation+185);
+            drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(flexRank)}`,460,tierLocation+185);
+            drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(summonerRankTft)}`,610,tierLocation+185);
 
             const textColor2='white'
             ctx.textAlign='left';
-            ctx.font=' 15pt  Gulim';
+            ctx.font=` 15pt  ${fontKind}`;
             ctx.fillStyle = textColor2;
             
             ctx.fillText(nickname,150,50);
             
-            drawText(ctx,"12pt  Gulim",textColor2,'솔로 랭크',308,tierLocation);
-            drawText(ctx," 12pt  Gulim",textColor2,'자유 랭크',459,tierLocation);
-            drawText(ctx," 12pt  Gulim",textColor2,'TFT 랭크',610,tierLocation);
+            drawText(ctx,`12pt  ${fontKind}`,textColor2,'솔로 랭크',308,tierLocation);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,'자유 랭크',459,tierLocation);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,'TFT 랭크',610,tierLocation);
 
-            drawText(ctx," 12pt  Gulim",textColor2,`${summonerSoloRank}`,310,tierLocation+125);
-            drawText(ctx," 12pt  Gulim",textColor2,`${summonerFlexRank}`,460,tierLocation+125);
-            drawText(ctx," 12pt  Gulim",textColor2,`${summonerTFTRank}`,610,tierLocation+125);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,`${summonerSoloRank}`,310,tierLocation+125);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,`${summonerFlexRank}`,460,tierLocation+125);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,`${summonerTFTRank}`,610,tierLocation+125);
 
-            drawText(ctx," 12pt  Gulim",textColor2,`${LPToString(soloRank)}`,310,tierLocation+143);
-            drawText(ctx," 12pt  Gulim",textColor2,`${LPToString(flexRank)}`,460,tierLocation+143);
-            drawText(ctx," 12pt  Gulim",textColor2,`${LPToString(summonerRankTft)}`,610,tierLocation+143);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,`${LPToString(soloRank)}`,310,tierLocation+143);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,`${LPToString(flexRank)}`,460,tierLocation+143);
+            drawText(ctx,` 12pt  ${fontKind}`,textColor2,`${LPToString(summonerRankTft)}`,610,tierLocation+143);
             
-            drawText(ctx," 10pt  Gulim",textColor2,`${printGameCounts(soloRank)}`,310,tierLocation+165);
-            drawText(ctx," 10pt  Gulim",textColor2,`${printGameCounts(flexRank)}`,460,tierLocation+165);
-            drawText(ctx," 10pt  Gulim",textColor2,`${printGameCounts(summonerRankTft)}`,610,tierLocation+165);
+            drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGameCounts(soloRank)}`,310,tierLocation+165);
+            drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGameCounts(flexRank)}`,460,tierLocation+165);
+            drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGameCounts(summonerRankTft)}`,610,tierLocation+165);
 
-            drawText(ctx," 10pt  Gulim",textColor2,`${printGamePer(soloRank)}`,310,tierLocation+185);
-            drawText(ctx," 10pt  Gulim",textColor2,`${printGamePer(flexRank)}`,460,tierLocation+185);
-            drawText(ctx," 10pt  Gulim",textColor2,`${printGamePer(summonerRankTft)}`,610,tierLocation+185);
+            drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGamePer(soloRank)}`,310,tierLocation+185);
+            drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGamePer(flexRank)}`,460,tierLocation+185);
+            drawText(ctx,` 10pt  ${fontKind}`,textColor2,`${printGamePer(summonerRankTft)}`,610,tierLocation+185);
             
 
             /*
