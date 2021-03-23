@@ -67,6 +67,11 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             let prifile_size=100;
             //ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
             ctx.drawImage(await loadImage(backgroundImg),0,0,canvas.width,canvas.height);
+        ctx.lineWidth=8;
+        ctx.strokeStyle="#e5e4e2";
+        ctx.strokeRect(0,0,canvas.width,canvas.height);
+
+
             //ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.font='bold 15pt  Gulim';
