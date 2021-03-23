@@ -143,7 +143,7 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
     ctx.strokeRect(30,30,100,100);
 
      //레벨 표시 이미지
-     ctx.drawImage(await loadImage('./src/files/lolfiles/level.png'),55, 115, 50, calImageSize(1056,612,50));
+     ctx.drawImage(await loadImage('./src/files/lolFiles/level.png'),55, 115, 50, calImageSize(1056,612,50));
     drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${summonerInfo.summonerLevel}`,80,136)
     ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(soloRank)}.png`),250,tierLocation-5,120,120);
     ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(flexRank)}.png`),400,tierLocation-5,120,120);
