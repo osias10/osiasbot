@@ -131,10 +131,20 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
 
             }
             */
-           
+    
     let profile_img= await loadImage(`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/profileicon/${summonerInfo.profileIconId}.png`);
     
     ctx.drawImage(profile_img,30, 30, 100, 100);
+    //프로필 사진 테두리
+   
+
+    ctx.lineWidth=3;
+    ctx.strokeStyle="#e5e4e2";
+    ctx.strokeRect(30,30,100,100);
+
+     //레벨 표시 이미지
+     ctx.drawImage(await loadImage('./src/files/lolfiles/level.png'),55, 115, 50, calImageSize(1056,612,50));
+    drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${summonerInfo.summonerLevel}`,80,136)
     ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(soloRank)}.png`),250,tierLocation-5,120,120);
     ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(flexRank)}.png`),400,tierLocation-5,120,120);
     ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(summonerRankTft)}.png`),550,tierLocation-5,120,120);
@@ -209,6 +219,9 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+}
+function calImageSize(width,height,resizeWidth){
+    return ((resizeWidth*height)/width);
 }
 
 module.exports={
