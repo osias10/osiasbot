@@ -1,6 +1,9 @@
 const axios = require('axios');
 const urlencode = require('urlencode');
 const fs=require('fs');
+//관전파일 임시 생성 경로
+const tmppath = '/ramdisk/';
+
 
 const {
     RIOT_KEY,
@@ -154,8 +157,8 @@ async function sendLolSpectator(lolSpectator){
     
     let result2 = result.replace(/gameId/g, lolSpectator.gameId);
     
-    fs.writeFileSync(`./src/files/lolSpector-${lolSpectator.gameId}.bat`,result2,'utf8');
-    return (`./src/files/lolSpector-${lolSpectator.gameId}.bat`);
+    fs.writeFileSync(`${tmppath}lolSpector-${lolSpectator.gameId}.bat`,result2,'utf8');
+    return (`${tmppath}lolSpector-${lolSpectator.gameId}.bat`);
 }
 
 

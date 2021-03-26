@@ -6,8 +6,13 @@ const filename=`test.png`;
 const {createCanvas,Image,loadImage}= require("canvas");
 const fs=require("fs");
 const { resolve } = require("path");
-const filepath='./src/files/tmp/';
+//const filepath='./src/files/tmp/';
+//롤프로필 생성 임시파일 경로
+const filepath='/ramdisk';
 const emblemPath='./src/files/lolFiles/ranked-emblems/';
+const moment = require('moment');
+
+
 
 /*
 const bgColor=randomColor({
@@ -168,9 +173,9 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
     
     });
     */
-   
+    const nowTime=moment().milliseconds();
     const buffer=canvas.toBuffer('image/png');
-    const summonerInfoPath= `${filepath}${nickname}.png`
+    const summonerInfoPath= `${filepath}${nickname}-${nowTime}.png`;
     fs.writeFileSync(summonerInfoPath,buffer);
     return (summonerInfoPath);
     
