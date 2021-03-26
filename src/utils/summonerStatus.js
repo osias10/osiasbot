@@ -8,7 +8,7 @@ const fs=require("fs");
 const { resolve } = require("path");
 //const filepath='./src/files/tmp/';
 //롤프로필 생성 임시파일 경로
-const filepath='/ramdisk';
+const filepath='/ramdisk/';
 const emblemPath='./src/files/lolFiles/ranked-emblems/';
 const moment = require('moment');
 
