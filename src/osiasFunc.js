@@ -97,7 +97,7 @@ const getLoLInfoImg = async (command) => {
     let result;
     let resultImg;
     let nickname = command.substring(command.indexOf(' ') + 1);
-    
+    /*
     let summoner = await lolutils.getSummonerInfo(nickname);
     let summonertier = await lolutils.getSummonerRank(summoner.id);
     let nicknametft = await lolutils.getSummonerInfoTft(nickname);
@@ -105,6 +105,13 @@ const getLoLInfoImg = async (command) => {
     let summonerChampion= await lolutils.getSummonerChampion(summoner.id);
     let championList = await lolutils.getChampionList();
     let championListFull= await lolutils.getChampionListFull();
+    */
+   let [summoner,nicknametft,championList,championListFull] = await Promise.all([lolutils.getSummonerInfo(nickname), lolutils.getSummonerInfoTft(nickname), lolutils.getChampionList(), lolutils.getChampionListFull()]);
+   let [summonertier, summonertfttier, summonerChampion] = await Promise.all([lolutils.getSummonerRank(summoner.id), lolutils.getSummonerRankTft(nicknametft.id), lolutils.getSummonerChampion(summoner.id)]);
+
+    
+
+
     if(summoner.response!=undefined && summoner.response.status===404){
         result = "```해당 소환사 정보가 존재하지 않습니다.```";
         

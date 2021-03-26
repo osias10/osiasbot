@@ -3,7 +3,7 @@ const urlencode = require('urlencode');
 const fs=require('fs');
 //관전파일 임시 생성 경로
 const tmppath = '/ramdisk/';
-
+//const tmppath = './src/files/'
 
 const {
     RIOT_KEY,
