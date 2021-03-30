@@ -73,7 +73,8 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             //ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
             ctx.drawImage(await loadImage(backgroundImg),0,0,canvas.width,canvas.height);
         ctx.lineWidth=8;
-        ctx.strokeStyle="#e5e4e2";
+        //ctx.strokeStyle="#e5e4e2";
+        ctx.strokeStyle=selectColor(soloRank);
         ctx.strokeRect(0,0,canvas.width,canvas.height);
 
 
@@ -149,7 +150,8 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
    
 
     ctx.lineWidth=3;
-    ctx.strokeStyle="#e5e4e2";
+    //ctx.strokeStyle="#e5e4e2";
+    ctx.strokeStyle=selectColor("soloRank");
     ctx.strokeRect(30,30,100,100);
 
      //레벨 표시 이미지
@@ -196,19 +198,19 @@ function drawText(ctx,textFont,color,text,x,y){
 function printTierEmblem(tier){
     if (tier[0]){
         switch (tier[0].tier){
-            case "IRON" : return "#a19d94";
-            case "BRONZE" : return "#cd7f32";
-            case "SILVER" : return "#c0c0c0" ;
-            case "GOLD" : return "#ffd700";
-            case "PLATINUM" : return "#e5e4e2";
-            case "DIAMOND" : return "#cfe4ee";
-            case "MASTER" : return "#684d77";
-            case "GRANDMASTER" : return "#e71837";
-            case "CHALLENGER" : return "#87ceeb";
-            default : return "#e5e4e2";
+            case "IRON" : return "Emblem_Iron";
+            case "BRONZE" : return "Emblem_Bronze";
+            case "SILVER" : return "Emblem_Silver" ;
+            case "GOLD" : return "Emblem_Gold";
+            case "PLATINUM" : return "Emblem_Platinum";
+            case "DIAMOND" : return "Emblem_Diamond";
+            case "MASTER" : return "Emblem_Master";
+            case "GRANDMASTER" : return "Emblem_Grandmaster";
+            case "CHALLENGER" : return "Emblem_Challenger";
+            default : return "Emblem_Unranked";
         }
     }
-    else return "#e5e4e2"
+    else return "Emblem_Unranked"
 };
 
 function printGameCounts(Rank){
@@ -234,20 +236,23 @@ function calImageSize(width,height,resizeWidth){
     return ((resizeWidth*height)/width);
 }
 function selectColor(tier){
-    if (tier){
-        switch(tier){
-            case "IRON" : return "Emblem_Iron";
-            case "BRONZE" : return "Emblem_Bronze";
-            case "SILVER" : return "Emblem_Silver" ;
-            case "GOLD" : return "Emblem_Gold";
-            case "PLATINUM" : return "Emblem_Platinum";
-            case "DIAMOND" : return "Emblem_Diamond";
-            case "MASTER" : return "Emblem_Master";
-            case "GRANDMASTER" : return "Emblem_Grandmaster";
-            case "CHALLENGER" : return "Emblem_Challenger";
-            default : return "Emblem_Unranked";
+    if (tier[0]){
+        switch(tier[0].tier){
+            case "IRON" : return "#a19d94";
+            case "BRONZE" : return "#cd7f32";
+            case "SILVER" : return "#c0c0c0" ;
+            case "GOLD" : return "#ffd700";
+            case "PLATINUM" : return "#e5e4e2";
+            case "DIAMOND" : return "#cfe4ee";
+            case "MASTER" : return "#684d77";
+            case "GRANDMASTER" : return "#e71837";
+            case "CHALLENGER" : return "#87ceeb";
+            default : return "#e5e4e2";
+
+            
         }
     }
+    else return '#e5e4e2';
 }
 
 module.exports={
