@@ -143,7 +143,7 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             }
             */
     
-    let profile_img= await loadImage(`http://ddragon.leagueoflegends.com/cdn/11.7.1/img/profileicon/${summonerInfo.profileIconId}.png`);
+    let profile_img= await loadImage(`http://ddragon.leagueoflegends.com/cdn/11.13.1/img/profileicon/${summonerInfo.profileIconId}.png`);
     
     ctx.drawImage(profile_img,30, 30, 100, 100);
     //프로필 사진 테두리
