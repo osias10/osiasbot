@@ -6,9 +6,9 @@ const filename=`test.png`;
 const {createCanvas,Image,loadImage}= require("canvas");
 const fs=require("fs");
 const { resolve } = require("path");
-//const filepath='./src/files/tmp/';
+const filepath='./src/files/tmp/';
 //롤프로필 생성 임시파일 경로
-const filepath='/ramdisk/';
+//const filepath='/ramdisk/';
 const emblemPath='./src/files/lolFiles/ranked-emblems/';
 const moment = require('moment');
 
@@ -45,6 +45,9 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
     const summonerMost1Id=summonerChampion[0].championId;
     const champions=Object.values(championListFull.data);
     const summonerMost1C = champions.filter(obj=>obj['key']===String(summonerMost1Id));
+    //const summonerMost2C = champions.filter(obj=>obj['key']===String(summonerChampion[1].championId));
+    //const summonerMost3C = champions.filter(obj=>obj['key']===String(summonerChampion[2].championId));
+    const championFace = `http://ddragon.leagueoflegends.com/cdn/11.13.1/img/champion/`
     
     const skinList=(summonerMost1C[0].skins).length;
     const randomSkin=getRandomInt(0,skinList);
@@ -68,6 +71,8 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
 
             const tierLocation = 205;
             const fontKind = 'Nanum Gothic';
+            const mostChampx=50;
+            const mostChampy=tierLocation+50;
 
             let prifile_size=100;
             //ctx.fillStyle = "rgb(0, 0, 0, 0.5)";
@@ -104,7 +109,9 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
             drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(soloRank)}`,310,tierLocation+185);
             drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(flexRank)}`,460,tierLocation+185);
             drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${printGamePer(summonerRankTft)}`,610,tierLocation+185);
-/*
+           
+
+            /*
             const textColor2='white'
             ctx.textAlign='left';
             ctx.font=` 15pt  ${fontKind}`;
@@ -154,13 +161,26 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
     ctx.strokeStyle=selectColor("soloRank");
     ctx.strokeRect(30,30,100,100);
 
-     //레벨 표시 이미지
-     ctx.drawImage(await loadImage('./src/files/lolFiles/level.png'),55, 115, 50, calImageSize(1056,612,50));
-    drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${summonerInfo.summonerLevel}`,80,136)
-    ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(soloRank)}.png`),250,tierLocation-5,120,120);
-    ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(flexRank)}.png`),400,tierLocation-5,120,120);
-    ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(summonerRankTft)}.png`),550,tierLocation-5,120,120);
+    //레벨 표시 이미지
+    //console.log(championFace);
+    //console.log(summonerMost2C[0].id);
+    //let [level_img, soloRank_img, flexRank_img, summonerRankTft_img,Most1C_img, Most2C_img, Most3_img] = await Promise.all([loadImage('./src/files/lolFiles/level.png'), loadImage(`${emblemPath}${printTierEmblem(soloRank)}.png`), loadImage(`${emblemPath}${printTierEmblem(flexRank)}.png`), loadImage(`${emblemPath}${printTierEmblem(summonerRankTft)}.png`), loadImage(`${championFace}${summonerMost1C[0].id}.png`), loadImage(`${championFace}${summonerMost2C[0].id}.png`), loadImage(`${championFace}${summonerMost3C[0].id}.png`)]).catch(err => {console.log(err.message)});
+    let [level_img, soloRank_img, flexRank_img, summonerRankTft_img,Most1C_img] = await Promise.all([loadImage('./src/files/lolFiles/level.png'), loadImage(`${emblemPath}${printTierEmblem(soloRank)}.png`), loadImage(`${emblemPath}${printTierEmblem(flexRank)}.png`), loadImage(`${emblemPath}${printTierEmblem(summonerRankTft)}.png`), loadImage(`${championFace}${summonerMost1C[0].id}.png`)]).catch(err => {console.log(err.message)});
 
+    ctx.drawImage(level_img,55, 115, 50, calImageSize(1056,612,50));    
+    //ctx.drawImage(await loadImage('./src/files/lolFiles/level.png'),55, 115, 50, calImageSize(1056,612,50));
+    drawText(ctx,`bold 12pt  ${fontKind}`,textColor,`${summonerInfo.summonerLevel}`,80,136)
+    //ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(soloRank)}.png`),250,tierLocation-5,120,120);
+    //ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(flexRank)}.png`),400,tierLocation-5,120,120);
+    //ctx.drawImage(await loadImage(`${emblemPath}${printTierEmblem(summonerRankTft)}.png`),550,tierLocation-5,120,120);
+    ctx.drawImage(soloRank_img,250,tierLocation-5,120,120);
+    ctx.drawImage(flexRank_img,400,tierLocation-5,120,120);
+    ctx.drawImage(summonerRankTft_img,550,tierLocation-5,120,120);
+    //모스트 챔피언 표시
+    await printMost3(mostChampx, mostChampy ,champions, championFace,summonerChampion,ctx, fontKind, textColor, tierLocation)
+    ctx.drawImage(Most1C_img, 50, tierLocation+50, 30, 30);
+    
+        
     /*
     const statusImgStream=canvas.createPNGStream();
     
@@ -253,6 +273,24 @@ function selectColor(tier){
         }
     }
     else return '#e5e4e2';
+}
+async function printMost3(mostChampx, mostChampy, champions, championFace,summonerChampion,ctx, fontKind, textColor, tierLocation){
+    if(summonerChampion.length>2){
+        const champLevelPath = './src/files/lolFiles/Champion_level/Champion_Mastery_Level_';
+        //모스트 챔피언 점수및 초상화 표시
+        const summonerMost2C = champions.filter(obj=>obj['key']===String(summonerChampion[1].championId));
+        const summonerMost3C = champions.filter(obj=>obj['key']===String(summonerChampion[2].championId));
+        drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${summonerChampion[0].championPoints} P`,mostChampx+70,mostChampy+20);
+        let [Most2C_img, Most3C_img,Most1L_img, Most2L_img, Most3L_img] = await Promise.all([ loadImage(`${championFace}${summonerMost2C[0].id}.png`), loadImage(`${championFace}${summonerMost3C[0].id}.png`), loadImage(`${champLevelPath}${summonerChampion[0].championLevel}_Flair.png`), loadImage(`${champLevelPath}${summonerChampion[1].championLevel}_Flair.png`), loadImage(`${champLevelPath}${summonerChampion[2].championLevel}_Flair.png`)])
+        ctx.drawImage(Most2C_img, mostChampx, mostChampy+40, 30, 30);
+        ctx.drawImage(Most3C_img, mostChampx, mostChampy+80, 30, 30);
+        drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${summonerChampion[1].championPoints} P`,mostChampx+70,mostChampy+60);
+        drawText(ctx,`bold 10pt  ${fontKind}`,textColor,`${summonerChampion[2].championPoints} P`,mostChampx+70,mostChampy+100);
+        //Champion_Mastery_Level_1_Flair.png
+        ctx.drawImage(Most1L_img, mostChampx-35, mostChampy,30,30);
+        ctx.drawImage(Most2L_img, mostChampx-35, mostChampy+40,30,30);
+        ctx.drawImage(Most3L_img, mostChampx-35, mostChampy+80,30,30);
+    }
 }
 
 module.exports={
