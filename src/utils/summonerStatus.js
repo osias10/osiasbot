@@ -276,7 +276,7 @@ function selectColor(tier){
 }
 async function printMost3(mostChampx, mostChampy, champions, championFace,summonerChampion,ctx, fontKind, textColor, tierLocation){
     if(summonerChampion.length>2){
-        const champLevelPath = './src/files/lolFiles/Champion_level/Champion_Mastery_Level_';
+        const champLevelPath = './src/files/lolFiles/champion_level/Champion_Mastery_Level_';
         //모스트 챔피언 점수및 초상화 표시
         const summonerMost2C = champions.filter(obj=>obj['key']===String(summonerChampion[1].championId));
         const summonerMost3C = champions.filter(obj=>obj['key']===String(summonerChampion[2].championId));
