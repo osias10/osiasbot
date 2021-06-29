@@ -293,6 +293,23 @@ async function printMost3(mostChampx, mostChampy, champions, championFace,summon
     }
 }
 
+async function printInGameImg(lolIngame){
+    let canvas = createCanvas(1000,517);
+    let ctx = canvas.getContext("2d");
+
+    let blueTeam='';
+    let redTeam='';
+
+    const blueTeams = lolIngame.participants.filter(obj => obj['teamId']===100);
+    const redTeams = lolIngame.participants.filter(obj => obj['teamId']===200);
+
+}
+
+async function printInGameSummoner(summoner){
+    let champion = champions.filter(obj=>obj['key']===String(summonerChampion[1].summoner.championId))
+    
+}
+
 module.exports={
     makeLolStatusImg
 }

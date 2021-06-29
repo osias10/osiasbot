@@ -130,6 +130,25 @@ const getLoLInfoImg = async (command) => {
     return [result,resultImg];
 }
 
+const getLolIngameImg = async (command) => {
+    
+    let nickname = command.substring(command.indexOf(' ')+1);
+    let summoner = await lolutils.getSummonerInfo(nickname);
+    let ingame = await lolutils.getLolSpectator(summoner);
+
+    if (summoner.response!=undefined && summoner.response.status===404){
+        
+        return (["```해당 소환사 정보가 존재하지 않습니다.```"]);
+    } else if (ingame.response!=undefined && ingame.response.status===404){
+        return (["```현재 게임중이 아닙니다.```"]);
+    }else  {
+        const lolSpectatorFile = await lolutils.sendLolSpectator(ingame);
+        const lolSpectatorPrint = await lolutils.printInGame(ingame);
+        return ([lolSpectatorPrint,lolSpectatorFile]);
+        
+    };
+}
+
 module.exports = {
     getLoLInfo, getCoin,getLolStatus, printHelp, getLolIngame, deleteSpectatorFile, getLoLInfoImg
 };
