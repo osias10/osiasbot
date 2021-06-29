@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const minigame = require('./utils/minigame');
 const osiasFunc = require('./osiasFunc');
+const chatutils = require('./utils/chatutils');
 
 const {
   DISCORD_KEY
@@ -69,6 +70,10 @@ client.on('message', async msg => {
     msg.reply(await osiasFunc.getCoin(commandList));
   } else if (command.startsWith('플레')) {
     msg.reply('<:Platinium:818816782088798239>');
+  }
+  else if (command.startsWith('익명')){
+    chatutils.messageAnonymous(msg);
+
   }
 });
 
