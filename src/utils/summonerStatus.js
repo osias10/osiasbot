@@ -12,7 +12,10 @@ const filepath='/ramdisk/';
 const emblemPath='./src/files/lolFiles/ranked-emblems/';
 const moment = require('moment');
 
+const lolutils = require('./lolutils');
 
+//const championListFull=await lolutils.getChampionListFull();
+//const champions=Object.values(championListFull.data);
 
 /*
 const bgColor=randomColor({
@@ -306,8 +309,8 @@ async function printInGameImg(lolIngame){
 }
 
 async function printInGameSummoner(summoner){
-    let champion = champions.filter(obj=>obj['key']===String(summonerChampion[1].summoner.championId))
-    
+    let champion = champions.filter(obj=>obj['key']===String(summoner.championId));
+    let spell1 = (spells.filter(obj=obj['key'] === String(summoner.spell1Id))).id;
 }
 
 module.exports={
