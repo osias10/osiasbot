@@ -311,6 +311,7 @@ async function printInGameImg(lolIngame){
 async function printInGameSummoner(summoner){
     let champion = champions.filter(obj=>obj['key']===String(summoner.championId));
     let spell1 = (spells.filter(obj=obj['key'] === String(summoner.spell1Id))).id;
+    let spell2 = (spells.filter(obj=obj['key'] === String(summoner.spell2Id))).id;
 }
 
 module.exports={
