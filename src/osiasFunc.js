@@ -143,12 +143,12 @@ const getLolIngameImg = async (command) => {
         return (["```현재 게임중이 아닙니다.```"]);
     }else  {
         const lolSpectatorFile = await lolutils.sendLolSpectator(ingame);
-        const lolSpectatorPrint = await lolutils.printInGame(ingame);
+        const lolSpectatorPrint = await summonerImg.makeInGameImg(ingame);
         return ([lolSpectatorPrint,lolSpectatorFile]);
         
     };
 }
 
 module.exports = {
-    getLoLInfo, getCoin,getLolStatus, printHelp, getLolIngame, deleteSpectatorFile, getLoLInfoImg
+    getLoLInfo, getCoin,getLolStatus, printHelp, getLolIngame, deleteSpectatorFile, getLoLInfoImg, getLolIngameImg
 };

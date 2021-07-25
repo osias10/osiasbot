@@ -9,6 +9,9 @@ const {
 
 const commandLetter = '*';
 
+
+
+
 const client = new Discord.Client();
 client.on('ready', () => console.log('준비 완료!'));
 client.on('message', async msg => {
@@ -57,7 +60,24 @@ client.on('message', async msg => {
     
     osiasFunc.deleteSpectatorFile(lolIngame[1]);
     
-  } else if(command.startsWith('봇초대' ||'초대')){
+  } 
+  else if (command.startsWith('관전')){
+    const lolIngameImg= await osiasFunc.getLolIngameImg(command);
+
+    if (lolIngameImg[1]!= undefined){
+      await msg.channel.send('',{files:[lolIngameImg[0]]});
+      await msg.channel.send('관전파일',{files:[lolIngameImg[1]]});
+
+
+    }
+    else {
+      msg.channel.send(lolIngameImg[0]);
+    }
+
+
+  }
+  
+  else if(command.startsWith('봇초대' ||'초대')){
     msg.channel.send("https://discord.com/oauth2/authorize?client_id=710395761682153533&permissions=8&scope=bot");
   } else if (command.startsWith('바보')) {
     let name = commandList[1];

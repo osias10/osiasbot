@@ -2,8 +2,8 @@ const axios = require('axios');
 const urlencode = require('urlencode');
 const fs=require('fs');
 //관전파일 임시 생성 경로
-const tmppath = '/ramdisk/';
-//const tmppath = './src/files/'
+//const tmppath = '/ramdisk/';
+const tmppath = './src/files/'
 
 const {
     RIOT_KEY,
@@ -63,6 +63,12 @@ const getChampionFace = async(championName)=>
     await axios.get(`http://ddragon.leagueoflegends.com/cdn/11.13.1/img/champion/${championName}.png`)
     .then(res=>res.data)
     .catch(err => err);
+
+const getSpellList= async()=>
+    await axios.get(`http://ddragon.leagueoflegends.com/cdn/11.15.1/data/en_US/summoner.json`)
+    .then(res=>res.data)
+    .catch(err =>err)
+
 
 
 function printGameType(lolSpectator){
@@ -374,5 +380,6 @@ module.exports = {
     sendLolSpectator,
     getSummonerChampion,
     getChampionList,
-    getChampionListFull
+    getChampionListFull,
+    getSpellList
 }

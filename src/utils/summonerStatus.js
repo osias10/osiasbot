@@ -14,6 +14,18 @@ const moment = require('moment');
 
 const lolutils = require('./lolutils');
 
+
+const CspellList = require('../files/lolFiles/jsons/summoner.json');
+const CchampionLists = require('../files/lolFiles/jsons/champion.json')
+spellList = Object.values(CspellList.data);
+championLists = Object.values(CchampionLists.data);
+
+const championFace = `http://ddragon.leagueoflegends.com/cdn/11.13.1/img/champion/`
+const spellImg = `http://ddragon.leagueoflegends.com/cdn/11.15.1/img/spell/`
+global.championFace = championFace;
+global.spellList = spellList;
+global.championLists = championLists;
+
 //const championListFull=await lolutils.getChampionListFull();
 //const champions=Object.values(championListFull.data);
 
@@ -296,9 +308,14 @@ async function printMost3(mostChampx, mostChampy, champions, championFace,summon
     }
 }
 
-async function printInGameImg(lolIngame){
-    let canvas = createCanvas(1000,517);
-    let ctx = canvas.getContext("2d");
+async function makeInGameImg(lolIngame){
+    const IGI_width=1000;
+    const IGI_height=517;
+    const slot_height = IGI_height/13;
+
+    let inGameCanvas = createCanvas(IGI_width,IGI_height);
+    let ctx = inGameCanvas.getContext("2d");
+    
 
     let blueTeam='';
     let redTeam='';
@@ -306,14 +323,37 @@ async function printInGameImg(lolIngame){
     const blueTeams = lolIngame.participants.filter(obj => obj['teamId']===100);
     const redTeams = lolIngame.participants.filter(obj => obj['teamId']===200);
 
+
+    
+    ctx.fillStyle="rgb(0,0,0,0.5)" ;
+    ctx.fillRect(0,0,IGI_width, IGI_height);
+
+    printInGameSummoner(ctx,blueTeams[0],30,slot_height*3);
+
+    const nowTime=moment().milliseconds();
+    const buffer=inGameCanvas.toBuffer('image/png');
+    summonerInfoPath= `./src/files/tmp/${nickname}-${nowTime}.png`;
+
+    //const summonerInfoPath= `${filepath}${nickname}-${nowTime}.png`;
+    fs.writeFileSync(summonerInfoPath,buffer);
+    return (summonerInfoPath);
+
+
+
+
 }
 
-async function printInGameSummoner(summoner){
-    let champion = champions.filter(obj=>obj['key']===String(summoner.championId));
-    let spell1 = (spells.filter(obj=obj['key'] === String(summoner.spell1Id))).id;
-    let spell2 = (spells.filter(obj=obj['key'] === String(summoner.spell2Id))).id;
+async function printInGameSummoner(ctx,summoner, x, y){
+    let champion = championLists.filter(obj=>obj['key']===String(summoner.championId));
+    let spell1 = (spellList.filter(obj=>obj['key'] === String(summoner.spell1Id))).id;
+    let spell2 = (spellList.filter(obj=>obj['key'] === String(summoner.spell2Id))).id;
+    let nickname = summoner.summonerName;
+
+    let [championFaceImg, spell1Img, spell2Img] = await Promise.all[loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`)];
+    ctx.drawImage(championFaceImg,50,y,30,30);
 }
 
 module.exports={
-    makeLolStatusImg
+    makeLolStatusImg,
+    makeInGameImg
 }
