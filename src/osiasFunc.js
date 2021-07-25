@@ -143,7 +143,7 @@ const getLolIngameImg = async (command) => {
         return (["```현재 게임중이 아닙니다.```"]);
     }else  {
         const lolSpectatorFile = await lolutils.sendLolSpectator(ingame);
-        const lolSpectatorPrint = await summonerImg.makeInGameImg(ingame);
+        const lolSpectatorPrint = await summonerImg.makeInGameImg(nickname,ingame);
         return ([lolSpectatorPrint,lolSpectatorFile]);
         
     };

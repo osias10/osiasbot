@@ -25,6 +25,9 @@ const spellImg = `http://ddragon.leagueoflegends.com/cdn/11.15.1/img/spell/`
 global.championFace = championFace;
 global.spellList = spellList;
 global.championLists = championLists;
+global.spellImg = spellImg;
+
+
 
 //const championListFull=await lolutils.getChampionListFull();
 //const champions=Object.values(championListFull.data);
@@ -308,10 +311,10 @@ async function printMost3(mostChampx, mostChampy, champions, championFace,summon
     }
 }
 
-async function makeInGameImg(lolIngame){
+async function makeInGameImg(nickname,lolIngame){
     const IGI_width=1000;
     const IGI_height=517;
-    const slot_height = IGI_height/13;
+    const slot_height = IGI_height/8;
 
     let inGameCanvas = createCanvas(IGI_width,IGI_height);
     let ctx = inGameCanvas.getContext("2d");
@@ -325,10 +328,10 @@ async function makeInGameImg(lolIngame){
 
 
     
-    ctx.fillStyle="rgb(0,0,0,0.5)" ;
+    ctx.fillStyle="rgb(255,255,255,0.5)" ;
     ctx.fillRect(0,0,IGI_width, IGI_height);
 
-    printInGameSummoner(ctx,blueTeams[0],30,slot_height*3);
+    await printInGameSummoner(ctx,blueTeams[0],30,slot_height*2,slot_height);
 
     const nowTime=moment().milliseconds();
     const buffer=inGameCanvas.toBuffer('image/png');
@@ -343,14 +346,23 @@ async function makeInGameImg(lolIngame){
 
 }
 
-async function printInGameSummoner(ctx,summoner, x, y){
-    let champion = championLists.filter(obj=>obj['key']===String(summoner.championId));
-    let spell1 = (spellList.filter(obj=>obj['key'] === String(summoner.spell1Id))).id;
-    let spell2 = (spellList.filter(obj=>obj['key'] === String(summoner.spell2Id))).id;
+async function printInGameSummoner(ctx,summoner, x, y, slot_height){
+    const fontKind = 'Nanum Gothic';
+    const textColor = 'black';
+
+    let champion = (championLists.filter(obj=>obj['key']===String(summoner.championId)))[0].id;
+    let spell1 = (spellList.filter(obj=>obj['key'] === String(summoner.spell1Id)))[0].id;
+    let spell2 = (spellList.filter(obj=>obj['key'] === String(summoner.spell2Id)))[0].id;
     let nickname = summoner.summonerName;
 
-    let [championFaceImg, spell1Img, spell2Img] = await Promise.all[loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`)];
-    ctx.drawImage(championFaceImg,50,y,30,30);
+    console.log(champion);
+
+    let [championFaceImg, spell1Img, spell2Img] = await Promise.all([loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`)]).catch(err => {console.log(err.message)});
+    ctx.drawImage(championFaceImg,50,y,slot_height-5,slot_height-5);
+    ctx.drawImage(spell1Img,50+slot_height+5,y,slot_height/2,slot_height/2);
+    ctx.drawImage(spell2Img,50+slot_height+5,y+(slot_height/2),slot_height/2,slot_height/2);
+    drawText(ctx,`bold 15pt  ${fontKind}`,textColor,nickname,50+slot_height*3,slot_height*2.5);
+
 }
 
 module.exports={
