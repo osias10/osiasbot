@@ -17,6 +17,8 @@ const lolutils = require('./lolutils');
 
 const CspellList = require('../files/lolFiles/jsons/summoner.json');
 const CchampionLists = require('../files/lolFiles/jsons/champion.json')
+
+
 spellList = Object.values(CspellList.data);
 championLists = Object.values(CchampionLists.data);
 
@@ -308,16 +310,22 @@ async function printMost3(mostChampx, mostChampy, champions, championFace,summon
         ctx.drawImage(Most1L_img, mostChampx-35, mostChampy,30,30);
         ctx.drawImage(Most2L_img, mostChampx-35, mostChampy+40,30,30);
         ctx.drawImage(Most3L_img, mostChampx-35, mostChampy+80,30,30);
+        
     }
 }
 
 async function makeInGameImg(nickname,lolIngame){
-    const IGI_width=1000;
-    const IGI_height=517;
-    const slot_height = IGI_height/8;
+    const IGI_width=1500;
+    const IGI_height=775;
+    const slot_height = IGI_height/13;
 
     let inGameCanvas = createCanvas(IGI_width,IGI_height);
     let ctx = inGameCanvas.getContext("2d");
+    
+    let gameQueueId = lolIngame.gameQueueConfigId;
+    let gameMode= lolIngame.gameMode;
+    let map = lolIngame.mapId;
+    
     
 
     let blueTeam='';
@@ -331,7 +339,7 @@ async function makeInGameImg(nickname,lolIngame){
     ctx.fillStyle="rgb(255,255,255,0.5)" ;
     ctx.fillRect(0,0,IGI_width, IGI_height);
 
-    await printInGameSummoner(ctx,blueTeams[0],30,slot_height*2,slot_height);
+    await printInGameSummoner(ctx,blueTeams[0],30,slot_height*2,slot_height,gameQueueId);
 
     const nowTime=moment().milliseconds();
     const buffer=inGameCanvas.toBuffer('image/png');
@@ -346,7 +354,7 @@ async function makeInGameImg(nickname,lolIngame){
 
 }
 
-async function printInGameSummoner(ctx,summoner, x, y, slot_height){
+async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId){
     const fontKind = 'Nanum Gothic';
     const textColor = 'black';
 
@@ -354,6 +362,12 @@ async function printInGameSummoner(ctx,summoner, x, y, slot_height){
     let spell1 = (spellList.filter(obj=>obj['key'] === String(summoner.spell1Id)))[0].id;
     let spell2 = (spellList.filter(obj=>obj['key'] === String(summoner.spell2Id)))[0].id;
     let nickname = summoner.summonerName;
+    
+    
+
+    
+
+
 
     console.log(champion);
 
@@ -361,7 +375,8 @@ async function printInGameSummoner(ctx,summoner, x, y, slot_height){
     ctx.drawImage(championFaceImg,50,y,slot_height-5,slot_height-5);
     ctx.drawImage(spell1Img,50+slot_height+5,y,slot_height/2,slot_height/2);
     ctx.drawImage(spell2Img,50+slot_height+5,y+(slot_height/2),slot_height/2,slot_height/2);
-    drawText(ctx,`bold 15pt  ${fontKind}`,textColor,nickname,50+slot_height*3,slot_height*2.5);
+    drawText(ctx,`bold 20pt  ${fontKind}`,textColor,nickname,50+slot_height*3,slot_height*2.5);
+    ctx.drawImage
 
 }
 
