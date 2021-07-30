@@ -29,6 +29,9 @@ global.spellList = spellList;
 global.championLists = championLists;
 global.spellImg = spellImg;
 
+const tierImgPath = './src/files/lolFiles/ranked-emblems/';
+global.tierImgPath = tierImgPath;
+
 
 
 //const championListFull=await lolutils.getChampionListFull();
@@ -253,6 +256,24 @@ function printTierEmblem(tier){
     else return "Emblem_Unranked"
 };
 
+function printTierEmblemImg(tier){
+    if (tier){
+        switch (tier){
+            case "IRON" : return "Emblem_Iron";
+            case "BRONZE" : return "Emblem_Bronze";
+            case "SILVER" : return "Emblem_Silver" ;
+            case "GOLD" : return "Emblem_Gold";
+            case "PLATINUM" : return "Emblem_Platinum";
+            case "DIAMOND" : return "Emblem_Diamond";
+            case "MASTER" : return "Emblem_Master";
+            case "GRANDMASTER" : return "Emblem_Grandmaster";
+            case "CHALLENGER" : return "Emblem_Challenger";
+            default : return "Emblem_Unranked";
+        }
+    }
+    else return "Emblem_Unranked"
+};
+
 function printGameCounts(Rank){
     if (Rank[0]){
         //return `${Rank[0].wins+Rank[0].losses}전 ${Rank[0].wins}승 ${Rank[0].losses}패 ${((Rank[0].wins/(Rank[0].wins+Rank[0].losses)*100).toFixed())}%`;
@@ -358,6 +379,7 @@ async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId){
     const fontKind = 'Nanum Gothic';
     const textColor = 'black';
 
+
     let champion = (championLists.filter(obj=>obj['key']===String(summoner.championId)))[0].id;
     let spell1 = (spellList.filter(obj=>obj['key'] === String(summoner.spell1Id)))[0].id;
     let spell2 = (spellList.filter(obj=>obj['key'] === String(summoner.spell2Id)))[0].id;
@@ -371,13 +393,25 @@ async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId){
 
     console.log(champion);
 
-    let [championFaceImg, spell1Img, spell2Img] = await Promise.all([loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`)]).catch(err => {console.log(err.message)});
+    let [championFaceImg, spell1Img, spell2Img, tierImg,summonerRank] = await Promise.all([loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`), loadImage(`${tierImgPath}${printTierEmblemImg(await lolutils.printSpectatorTierImg(summoner.summonerId,gameQueueId))}.png`), lolutils.getSummonerRank(summoner.summonerId)]).catch(err => {console.log(err.message)});
+    let summonerRankW= lolutils.printSpectatorRankW(summonerRank,gameQueueId);
+
+    
+    
     ctx.drawImage(championFaceImg,50,y,slot_height-5,slot_height-5);
     ctx.drawImage(spell1Img,50+slot_height+5,y,slot_height/2,slot_height/2);
     ctx.drawImage(spell2Img,50+slot_height+5,y+(slot_height/2),slot_height/2,slot_height/2);
     drawText(ctx,`bold 20pt  ${fontKind}`,textColor,nickname,50+slot_height*3,slot_height*2.5);
-    ctx.drawImage
+    ctx.drawImage(tierImg,50+slot_height*5,y,slot_height-5,slot_height-5);
+    
+    drawText(ctx,`bold 20pt  ${fontKind}`,textColor,`${calWinRate(summonerRankW)}%`,50+slot_height*7,slot_height*2.5);
 
+}
+
+function calWinRate(Rank){
+    return ((Rank.wins/(Rank.wins+Rank.losses)*100).toFixed());
+    
+    
 }
 
 module.exports={

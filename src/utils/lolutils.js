@@ -114,20 +114,16 @@ function calIngameTime(startTime){
     return (`${Math.floor(diffMin)}분 ${Math.floor(diffSec-(Math.floor(diffMin)*60))}초`);
 }
 
-//소환사 티어 알림 (관전)
-async function printSpectatorTier(id,gameType){
+//소환사 티어 알림 (관전)(이미지)
+async function printSpectatorTierImg(id,gameType){
     const tier = await getSummonerRank(id);
     if (gameType === 440){
         const flexRank = tier.filter(obj => obj['queueType'] === 'RANKED_FLEX_SR');
         if (flexRank[0] !=undefined){
-            switch((flexRank[0].tier)){
-                case 'CHALLENGER' : return 'CH'
-                case 'GRANDMASTER' : return 'GM';
-                default : return (`${(flexRank[0].tier)[0]}${flexRank[0].rank}`);
-            }
+            return (flexRank[0].tier);
         }
              
-        else return('Un');
+        else return('Unranked');
     }
     else {
         const soloRank = tier.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
@@ -137,7 +133,7 @@ async function printSpectatorTier(id,gameType){
 
         
         }
-        else return('Un');
+        else return('Unranked');
     }
 }
 //게임모드의 티어 출력
@@ -164,6 +160,29 @@ async function printSpectatorTier(id,gameType){
                 case 'GRANDMASTER' : return 'GM';
                 default : return(`${(soloRank[0].tier)[0]}${soloRank[0].rank}`);
             }
+
+             
+
+
+        }
+        else return('Un');
+    }
+}
+//승률 계산
+function printSpectatorRankW(tier,gameType){
+    if (gameType === 440){
+        const flexRank = tier.filter(obj => obj['queueType'] === 'RANKED_FLEX_SR');
+        if (flexRank[0] !=undefined){
+            return flexRank[0]
+        }
+             
+        else return('Un');
+    }
+    else {
+        const soloRank = tier.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
+        
+        if(soloRank[0] !=undefined){
+            return soloRank[0]
 
              
 
@@ -408,5 +427,7 @@ module.exports = {
     getChampionList,
     getChampionListFull,
     getSpellList,
-    printSpectatorTier
+    printSpectatorTier,
+    printSpectatorTierImg,
+    printSpectatorRankW
 }
