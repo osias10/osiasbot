@@ -6,9 +6,9 @@ const filename=`test.png`;
 const {createCanvas,Image,loadImage}= require("canvas");
 const fs=require("fs");
 const { resolve } = require("path");
-//const filepath='./src/files/tmp/';
+const filepath='./src/files/tmp/';
 //롤프로필 생성 임시파일 경로
-const filepath='/ramdisk/';
+//const filepath='/ramdisk/';
 const emblemPath='./src/files/lolFiles/ranked-emblems/';
 const moment = require('moment');
 
@@ -363,6 +363,7 @@ async function makeInGameImg(nickname,lolIngame){
     
     ctx.fillStyle="rgb(255,255,255,0.5)" ;
     ctx.fillRect(0,0,IGI_width, IGI_height);
+    /*
     for  (let n=0 ; n<11; n++){
         if (n<5){
             await printInGameSummoner(ctx,blueTeams[n],30,slot_height*2,slot_height,gameQueueId,n);
@@ -376,6 +377,14 @@ async function makeInGameImg(nickname,lolIngame){
         }
 
     }
+    */
+    const bteams=[0,1,2,3,4];
+    const bteamsPromise = bteams.map((n) => printInGameSummoner(ctx,blueTeams[n],30,slot_height*2,slot_height,gameQueueId,n));
+    const rteams=[6,7,8,9,10];
+    const rteamsPromise = rteams.map((n) => printInGameSummoner(ctx,redTeams[n-6],30,slot_height*2,slot_height,gameQueueId,n));
+    
+    await Promise.all(bteamsPromise).catch(err => {console.log(err.message)});
+    await Promise.all(rteamsPromise).catch(err => {console.log(err.message)});
     drawText(ctx,`bold 20pt  ${fontKind}`,textColor,`${lolutils.printGameType(lolIngame)}  |  ${lolutils.printGameMode(lolIngame)}  | ${lolutils.calIngameTime(lolIngame.gameStartTime)}`,IGI_width/5,slot_height);
 
 
@@ -415,6 +424,7 @@ async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId,n
     console.log(champion);
 
     let [championFaceImg, spell1Img, spell2Img, tierImg,summonerRank] = await Promise.all([loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`), loadImage(`${tierImgPath}${printTierEmblemImg(await lolutils.printSpectatorTierImg(summoner.summonerId,gameQueueId))}.png`), lolutils.getSummonerRank(summoner.summonerId)]).catch(err => {console.log(err.message)});
+    
     let summonerRankW= lolutils.printSpectatorRankW(summonerRank,gameQueueId);
 
     

@@ -239,10 +239,10 @@ function sendLolSpectator(lolSpectator){
 }
 */
 async function sendLolSpectator(lolSpectator){
-    let data= fs.readFileSync('./src/files/lolSpector.bat','utf8');
-    let result = data.replace(/encryptionKey/g, lolSpectator.observers.encryptionKey);
+    const data= await fs.readFileSync('./src/files/lolSpector.bat','utf8');
+    const result = data.replace(/encryptionKey/g, lolSpectator.observers.encryptionKey);
     
-    let result2 = result.replace(/gameId/g, lolSpectator.gameId);
+    const result2 = result.replace(/gameId/g, lolSpectator.gameId);
     
     fs.writeFileSync(`${tmppath}lolSpector-${lolSpectator.gameId}.bat`,result2,'utf8');
     return (`${tmppath}lolSpector-${lolSpectator.gameId}.bat`);
