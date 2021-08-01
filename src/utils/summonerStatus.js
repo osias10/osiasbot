@@ -22,7 +22,7 @@ const CchampionLists = require('../files/lolFiles/jsons/champion.json')
 spellList = Object.values(CspellList.data);
 championLists = Object.values(CchampionLists.data);
 
-const championFace = `http://ddragon.leagueoflegends.com/cdn/11.13.1/img/champion/`
+const championFace = `http://ddragon.leagueoflegends.com/cdn/11.15.1/img/champion/`
 const spellImg = `http://ddragon.leagueoflegends.com/cdn/11.15.1/img/spell/`
 global.championFace = championFace;
 global.spellList = spellList;
@@ -340,6 +340,10 @@ async function makeInGameImg(nickname,lolIngame){
     const IGI_height=775;
     const slot_height = IGI_height/13;
 
+    const fontKind = 'Nanum Gothic';
+    const textColor = 'black';
+
+
     let inGameCanvas = createCanvas(IGI_width,IGI_height);
     let ctx = inGameCanvas.getContext("2d");
     
@@ -359,12 +363,29 @@ async function makeInGameImg(nickname,lolIngame){
     
     ctx.fillStyle="rgb(255,255,255,0.5)" ;
     ctx.fillRect(0,0,IGI_width, IGI_height);
+    for  (let n=0 ; n<11; n++){
+        if (n<5){
+            await printInGameSummoner(ctx,blueTeams[n],30,slot_height*2,slot_height,gameQueueId,n);
+        }
+        else if (n==5){
 
-    await printInGameSummoner(ctx,blueTeams[0],30,slot_height*2,slot_height,gameQueueId);
+        }
+        else if (n!=5 && n<11){
+            await printInGameSummoner(ctx,redTeams[n%6],30,slot_height*2,slot_height,gameQueueId,n);
+
+        }
+
+    }
+    drawText(ctx,`bold 20pt  ${fontKind}`,textColor,`${lolutils.printGameType(lolIngame)}  |  ${lolutils.printGameMode(lolIngame)}  | ${lolutils.calIngameTime(lolIngame.gameStartTime)}`,IGI_width/5,slot_height);
+
+
+
+
 
     const nowTime=moment().milliseconds();
     const buffer=inGameCanvas.toBuffer('image/png');
-    summonerInfoPath= `./src/files/tmp/${nickname}-${nowTime}.png`;
+    //summonerInfoPath= `./src/files/tmp/${nickname}-${nowTime}.png`;
+    summonerInfoPath= `${filepath}${nickname}-${nowTime}.png`
 
     //const summonerInfoPath= `${filepath}${nickname}-${nowTime}.png`;
     fs.writeFileSync(summonerInfoPath,buffer);
@@ -375,7 +396,7 @@ async function makeInGameImg(nickname,lolIngame){
 
 }
 
-async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId){
+async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId,n){
     const fontKind = 'Nanum Gothic';
     const textColor = 'black';
 
@@ -398,13 +419,14 @@ async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId){
 
     
     
-    ctx.drawImage(championFaceImg,50,y,slot_height-5,slot_height-5);
-    ctx.drawImage(spell1Img,50+slot_height+5,y,slot_height/2,slot_height/2);
-    ctx.drawImage(spell2Img,50+slot_height+5,y+(slot_height/2),slot_height/2,slot_height/2);
-    drawText(ctx,`bold 20pt  ${fontKind}`,textColor,nickname,50+slot_height*3,slot_height*2.5);
-    ctx.drawImage(tierImg,50+slot_height*5,y,slot_height-5,slot_height-5);
+    ctx.drawImage(championFaceImg,50,y+slot_height*n,slot_height-5,slot_height-5);
+    ctx.drawImage(spell1Img,50+slot_height+5,y+slot_height*n,slot_height/2-2,slot_height/2-2);
+    ctx.drawImage(spell2Img,50+slot_height+5,y+(slot_height/2)+slot_height*n,slot_height/2-2,slot_height/2-2);
+    drawText(ctx,`bold 20pt  ${fontKind}`,textColor,nickname,50+slot_height*3.5,y+30+slot_height*n);
+    ctx.drawImage(tierImg,50+slot_height*6,y+slot_height*n,slot_height-5,slot_height-5);
     
-    drawText(ctx,`bold 20pt  ${fontKind}`,textColor,`${calWinRate(summonerRankW)}%`,50+slot_height*7,slot_height*2.5);
+    drawText(ctx,` 20pt  ${fontKind}`,textColor,`${lolutils.printSpectatorTier2(summonerRank,gameQueueId)}`,50+slot_height*10,y+30+slot_height*n);
+    drawText(ctx,` 15pt  ${fontKind}`,textColor,`${calWinRate(summonerRankW)}% (${summonerRankW.wins+summonerRankW.losses}게임)`,50+slot_height*14,y+30-slot_height/3+slot_height*n);
 
 }
 

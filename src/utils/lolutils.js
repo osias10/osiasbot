@@ -191,6 +191,37 @@ function printSpectatorRankW(tier,gameType){
         else return('Un');
     }
 }
+//관전 이미지 티어 출력
+function printSpectatorTier2(tier,gameType){
+    if (gameType === 440){
+        const flexRank = tier.filter(obj => obj['queueType'] === 'RANKED_FLEX_SR');
+        if (flexRank[0] !=undefined){
+            switch((flexRank[0].tier)){
+                case 'CHALLENGER' : return `CHALLENGER (${flexRank[0].leaguePoints} LP)`;
+                case 'GRANDMASTER' : return `GRANDMASTER (${flexRank[0].leaguePoints} LP)`;
+                default : return (`${(flexRank[0].tier)} ${flexRank[0].rank} (${flexRank[0].leaguePoints} LP)`);
+            }
+        }
+             
+        else return('Unranked');
+    }
+    else {
+        const soloRank = tier.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
+        
+        if(soloRank[0] !=undefined){
+            switch((soloRank[0].tier)){
+                case 'CHALLENGER' : return `CHALLENGER (${soloRank[0].leaguePoints} LP)`
+                case 'GRANDMASTER' : return `GRANDMASTER (${soloRank[0].leaguePoints} LP)` ;
+                default : return(`${(soloRank[0].tier)} ${soloRank[0].rank} (${soloRank[0].leaguePoints} LP)`);
+            }
+
+             
+
+
+        }
+        else return('Unranked');
+    }
+}
 
 /*
 
@@ -429,5 +460,9 @@ module.exports = {
     getSpellList,
     printSpectatorTier,
     printSpectatorTierImg,
-    printSpectatorRankW
+    printSpectatorRankW,
+    printSpectatorTier2,
+    printGameType,
+    printGameMode,
+    calIngameTime
 }
