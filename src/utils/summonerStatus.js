@@ -6,6 +6,9 @@ const filename=`test.png`;
 const {createCanvas,Image,loadImage}= require("canvas");
 const fs=require("fs");
 const { resolve } = require("path");
+const mathjs = require("mathjs");
+
+
 const filepath='./src/files/tmp/';
 //롤프로필 생성 임시파일 경로
 //const filepath='/ramdisk/';
@@ -391,7 +394,7 @@ async function makeInGameImg(nickname,lolIngame){
 
 
 
-    const nowTime=moment().milliseconds();
+    const nowTime=moment().milliseconds()+mathjs.randomInt(10,99999);
     const buffer=inGameCanvas.toBuffer('image/png');
     //summonerInfoPath= `./src/files/tmp/${nickname}-${nowTime}.png`;
     summonerInfoPath= `${filepath}${nickname}-${nowTime}.png`
@@ -416,16 +419,16 @@ async function printInGameSummoner(ctx,summoner, x, y, slot_height,gameQueueId,n
     let nickname = summoner.summonerName;
     
     
-
+    const summonerRank= await lolutils.getSummonerRank(summoner.summonerId);
     
 
 
 
     console.log(champion);
 
-    let [championFaceImg, spell1Img, spell2Img, tierImg,summonerRank] = await Promise.all([loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`), loadImage(`${tierImgPath}${printTierEmblemImg(await lolutils.printSpectatorTierImg(summoner.summonerId,gameQueueId))}.png`), lolutils.getSummonerRank(summoner.summonerId)]).catch(err => {console.log(err.message)});
+    const [championFaceImg, spell1Img, spell2Img, tierImg] = await Promise.all([loadImage(`${championFace}${champion}.png`), loadImage(`${spellImg}${spell1}.png`), loadImage(`${spellImg}${spell2}.png`), loadImage(`${tierImgPath}${printTierEmblemImg(lolutils.printSpectatorTierImg(summonerRank,gameQueueId))}.png`)]).catch(err => {console.log(err.message)});
     
-    let summonerRankW= lolutils.printSpectatorRankW(summonerRank,gameQueueId);
+    const summonerRankW= lolutils.printSpectatorRankW(summonerRank,gameQueueId);
 
     
     

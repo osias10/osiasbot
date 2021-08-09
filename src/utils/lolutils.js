@@ -10,6 +10,10 @@ const {
     RIOT_TFT_KEY
 } = require('../../key.json');
 
+const mathjs = require('mathjs');
+
+
+
 const rankToString = (rank) => rank && rank.length > 0 ? `${rank[0].tier} ${rank[0].rank} ${rank[0].leaguePoints}LP` : 'UnRanked';
 
 const getSummonerInfo = async (nickname) =>
@@ -115,8 +119,8 @@ function calIngameTime(startTime){
 }
 
 //소환사 티어 알림 (관전)(이미지)
-async function printSpectatorTierImg(id,gameType){
-    const tier = await getSummonerRank(id);
+function printSpectatorTierImg(tier,gameType){
+    //const tier = await getSummonerRank(id);
     if (gameType === 440){
         const flexRank = tier.filter(obj => obj['queueType'] === 'RANKED_FLEX_SR');
         if (flexRank[0] !=undefined){
@@ -243,9 +247,9 @@ async function sendLolSpectator(lolSpectator){
     const result = data.replace(/encryptionKey/g, lolSpectator.observers.encryptionKey);
     
     const result2 = result.replace(/gameId/g, lolSpectator.gameId);
-    
-    fs.writeFileSync(`${tmppath}lolSpector-${lolSpectator.gameId}.bat`,result2,'utf8');
-    return (`${tmppath}lolSpector-${lolSpectator.gameId}.bat`);
+    const filename=`${lolSpectator.gameId}-${mathjs.randomInt(0,9999)}`;
+    fs.writeFileSync(`${tmppath}lolSpector-${filename}.bat`,result2,'utf8');
+    return (`${tmppath}lolSpector-${filename}.bat`);
 }
 
 

@@ -68,8 +68,13 @@ client.on('message', async msg => {
       await msg.channel.send('',{files:[lolIngameImg[0]]});
       await msg.channel.send('관전파일',{files:[lolIngameImg[1]]});
 
-      osiasFunc.deleteSpectatorFile(lolIngameImg[0]);
-      osiasFunc.deleteSpectatorFile(lolIngameImg[1]);
+      try{
+        await osiasFunc.deleteSpectatorFile(lolIngameImg[0]);
+        await osiasFunc.deleteSpectatorFile(lolIngameImg[1]);
+      }
+      catch{
+        console.log("파일 삭제 실패");
+      }
     }
     else {
       msg.channel.send(lolIngameImg[0]);
