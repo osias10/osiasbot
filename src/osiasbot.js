@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const minigame = require('./utils/minigame');
 const osiasFunc = require('./osiasFunc');
 const chatutils = require('./utils/chatutils');
+const lolutils = require('./utils/lolutils');
+
 
 const {
   DISCORD_KEY
@@ -9,11 +11,32 @@ const {
 
 const commandLetter = '*';
 
-
-
+//const getlolLatestVersion =  lolutils.getLolVersion().then(res => res.data);
+//getlolLatestVersion =  await lolutils.getLolVersion()
+//const lolLatestVersion = getlolLatestVersion[0];
+//console.log(getlolLatestVersion);
+//global.getlolLatestVersion=getlolLatestVersion;
 
 const client = new Discord.Client();
-client.on('ready', () => console.log('준비 완료!'));
+//client.on('ready', () => console.log('준비 완료!'));
+client.on('ready', async() => {
+  getlolLatestVersion =  await lolutils.getLolVersion()
+  const lolLatestVersion = getlolLatestVersion[0];
+  global.lolLatestVersion=lolLatestVersion;
+  console.log("최신버전: "+lolLatestVersion);
+  
+  const championFace = `http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/img/champion/`
+  const spellImg = `http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/img/spell/`
+  global.championFace = championFace;
+  
+  global.spellImg = spellImg;
+
+
+
+
+
+
+});
 client.on('message', async msg => {
   let content = msg.content;
   if (content === 'ping') {
@@ -105,3 +128,9 @@ client.on('message', async msg => {
 });
 
 client.login(DISCORD_KEY);
+/*
+module.exports={
+  
+  "lolLatestVersion" : lolLatestVersion
+}
+*/

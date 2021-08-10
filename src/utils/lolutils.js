@@ -1,9 +1,12 @@
 const axios = require('axios');
 const urlencode = require('urlencode');
 const fs=require('fs');
+const osiasbot = require('../osiasbot');
+
+
 //관전파일 임시 생성 경로
-//const tmppath = '/ramdisk/';
-const tmppath = './src/files/'
+const tmppath = '/ramdisk/';
+//const tmppath = './src/files/'
 
 const {
     RIOT_KEY,
@@ -72,7 +75,17 @@ const getSpellList= async()=>
     await axios.get(`http://ddragon.leagueoflegends.com/cdn/11.15.1/data/en_US/summoner.json`)
     .then(res=>res.data)
     .catch(err =>err)
+/*
+const getLolVersion = async() =>
+    await axios.get('https://ddragon.leagueoflegends.com/api/versions.json')
+    .then(res=>res.data)
+    .catch(err=> err)
 
+    */
+async function getLolVersion(){
+    const res = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json');
+    return (res.data);
+}
 
 
 function printGameType(lolSpectator){
@@ -468,5 +481,6 @@ module.exports = {
     printSpectatorTier2,
     printGameType,
     printGameMode,
-    calIngameTime
+    calIngameTime,
+    getLolVersion
 }

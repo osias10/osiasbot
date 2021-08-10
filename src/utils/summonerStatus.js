@@ -9,13 +9,14 @@ const { resolve } = require("path");
 const mathjs = require("mathjs");
 
 
-const filepath='./src/files/tmp/';
+//const filepath='./src/files/tmp/';
 //롤프로필 생성 임시파일 경로
-//const filepath='/ramdisk/';
+const filepath='/ramdisk/';
 const emblemPath='./src/files/lolFiles/ranked-emblems/';
 const moment = require('moment');
 
 const lolutils = require('./lolutils');
+const osiasbot = require('../osiasbot');
 
 
 const CspellList = require('../files/lolFiles/jsons/summoner.json');
@@ -25,13 +26,8 @@ const CchampionLists = require('../files/lolFiles/jsons/champion.json')
 spellList = Object.values(CspellList.data);
 championLists = Object.values(CchampionLists.data);
 
-const championFace = `http://ddragon.leagueoflegends.com/cdn/11.15.1/img/champion/`
-const spellImg = `http://ddragon.leagueoflegends.com/cdn/11.15.1/img/spell/`
-global.championFace = championFace;
 global.spellList = spellList;
 global.championLists = championLists;
-global.spellImg = spellImg;
-
 const tierImgPath = './src/files/lolFiles/ranked-emblems/';
 global.tierImgPath = tierImgPath;
 
@@ -73,7 +69,7 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
     const summonerMost1C = champions.filter(obj=>obj['key']===String(summonerMost1Id));
     //const summonerMost2C = champions.filter(obj=>obj['key']===String(summonerChampion[1].championId));
     //const summonerMost3C = champions.filter(obj=>obj['key']===String(summonerChampion[2].championId));
-    const championFace = `http://ddragon.leagueoflegends.com/cdn/11.13.1/img/champion/`
+    const championFace = `http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/img/champion/`
     
     const skinList=(summonerMost1C[0].skins).length;
     const randomSkin=getRandomInt(0,skinList);
@@ -175,8 +171,9 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
 
             }
             */
-    
-    let profile_img= await loadImage(`http://ddragon.leagueoflegends.com/cdn/11.13.1/img/profileicon/${summonerInfo.profileIconId}.png`);
+    //console.log(`http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/img/profileicon/${summonerInfo.profileIconId}.png`);
+
+    let profile_img= await loadImage(`http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/img/profileicon/${summonerInfo.profileIconId}.png`);
     
     ctx.drawImage(profile_img,30, 30, 100, 100);
     //프로필 사진 테두리
