@@ -3,6 +3,7 @@ const minigame = require('./utils/minigame');
 const osiasFunc = require('./osiasFunc');
 const chatutils = require('./utils/chatutils');
 const lolutils = require('./utils/lolutils');
+const apiuilts = require('./utils/apiutils');
 
 
 const {
@@ -124,6 +125,9 @@ client.on('message', async msg => {
   else if (command.startsWith('익명')){
     chatutils.messageAnonymous(msg);
 
+  }
+  else if (command.startsWith('코로나')){
+    msg.channel.send(await apiuilts.printCoivd19());
   }
 });
 
