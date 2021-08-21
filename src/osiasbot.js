@@ -127,7 +127,7 @@ client.on('message', async msg => {
 
   }
   else if (command.startsWith('코로나')){
-    msg.channel.send(await apiuilts.printCoivd19());
+    msg.channel.send(await apiuilts.commandKind(commandList));
   }
 });
 
