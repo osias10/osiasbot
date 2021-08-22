@@ -64,7 +64,7 @@ async function printCovid19Vaccine(){
     const AllVaccine1 = Number(parseData.response.body[0].items[0].item[2].firstCnt);
     const AllVaccine2 = Number(parseData.response.body[0].items[0].item[2].secondCnt);
 
-    return (`코로나 19 예방접종 현황 \t\t[${today}]\n[오늘 접종한 인원]\n1차 접종: ${todayVaccine1.toLocaleString()}\t2차 접종: ${todayVaccine2.toLocaleString()}\n[총 접종자 수]\n1차 접종: ${AllVaccine1.toLocaleString()}\t2차 접종: ${AllVaccine2.toLocaleString()}`);
+    return (`코로나 19 예방접종 현황 \t\t[${today}]\n[오늘 접종한 인원]\n1차 접종: ${todayVaccine1.toLocaleString()}\t2차 접종: ${todayVaccine2.toLocaleString()}\n[총 접종자 수]\n1차 접종: ${AllVaccine1.toLocaleString()}  (${(AllVaccine1/51710000*100).toLocaleString()}%)\t2차 접종: ${AllVaccine2.toLocaleString()}  (${(AllVaccine2/51710000*100).toLocaleString()}%)`);
 
 }
 
