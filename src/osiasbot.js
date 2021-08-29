@@ -4,6 +4,7 @@ const osiasFunc = require('./osiasFunc');
 const chatutils = require('./utils/chatutils');
 const lolutils = require('./utils/lolutils');
 const apiuilts = require('./utils/apiutils');
+const amongus = require('./utils/amongus');
 
 
 const {
@@ -128,6 +129,15 @@ client.on('message', async msg => {
   }
   else if (command.startsWith('코로나')){
     msg.channel.send(await apiuilts.commandKind(commandList));
+  }
+  else if (command.startsWith('어몽어스')){
+    const among = amongus.amongus(commandList);
+    if (among[1]){
+      await msg.channel.send('',{files:[among[1]]});
+    }
+    else {
+      msg.channel.send(among);
+    }
   }
 });
 
