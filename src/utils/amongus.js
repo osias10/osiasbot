@@ -27,11 +27,11 @@ function amongus(command){
 
 function amongusSelectMap(command){
     
-    if ("1" || "the_skeld") {return ("the_skeld.png");}
+    if (command == "1" || command == "the_skeld") {return ("the_skeld.png");}
         
-    else if("2" || "mira_hq") {return ("mira_hq.png");}
-    else if("3" || "polus") {return ("polus.png");}
-    else if("4" || "the_airship") {return ("the_airship.png");}
+    else if(command == "2" || command == "mira_hq") {return ("mira_hq.png");}
+    else if( command == "3" || command == "polus") {return ("polus.png");}
+    else if( command == "4" || command == "the_airship") {return ("the_airship.png");}
 
     else{
             return("no")
