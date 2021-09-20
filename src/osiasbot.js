@@ -5,7 +5,7 @@ const chatutils = require('./utils/chatutils');
 const lolutils = require('./utils/lolutils');
 const apiuilts = require('./utils/apiutils');
 const amongus = require('./utils/amongus');
-
+const musicutils = require('./utils/musicutils');
 
 const {
   DISCORD_KEY
@@ -138,6 +138,9 @@ client.on('message', async msg => {
     else {
       msg.channel.send(among);
     }
+  }
+  else if (command.startsWith('p')){
+    musicutils.play(msg,)
   }
 });
 
