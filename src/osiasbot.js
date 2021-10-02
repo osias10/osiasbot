@@ -147,7 +147,6 @@ client.on('message', async msg => {
   }
   else if (command.startsWith('어몽어스')){
     const among = amongus.amongus(commandList);
-    console.log(among);
     if (among[1]){
       await msg.channel.send({files:[among[1]]});
     }
@@ -155,9 +154,7 @@ client.on('message', async msg => {
       msg.channel.send(among[0]);
     }
   }
-  else if (command.startsWith('p')){
-    musicutils.music(msg,serverQueue,queue);
-  }
+  
 });
 
 client.login(DISCORD_KEY);
