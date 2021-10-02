@@ -80,7 +80,8 @@ client.on('message', async msg => {
   } else if(command.startsWith('롤프로필')){
     const summonerImg=await osiasFunc.getLoLInfoImg(command);
     if (summonerImg[1]!=undefined){
-      await msg.channel.send('', {files:[summonerImg[1]]});
+      await msg.channel.send({files:[summonerImg[1]]});
+      console.log(summonerImg);
     }
     else{
       msg.channel.send(summonerImg[0]);
@@ -95,7 +96,7 @@ client.on('message', async msg => {
     //let embed = lolIngame[0];
     //await msg.channel.send({embed,files:[lolIngame[1]]});
     await msg.channel.send(lolIngame[0]);
-    if (lolIngame[1]!=undefined) {await msg.channel.send('관전파일', {files:[lolIngame[1]]});}
+    if (lolIngame[1]!=undefined) {await msg.channel.send({files:[lolIngame[1]]});}
     
     osiasFunc.deleteSpectatorFile(lolIngame[1]);
     
@@ -105,7 +106,7 @@ client.on('message', async msg => {
 
     if (lolIngameImg[1]!= undefined){
       await msg.channel.send('',{files:[lolIngameImg[0]]});
-      await msg.channel.send('관전파일',{files:[lolIngameImg[1]]});
+      await msg.channel.send({files:[lolIngameImg[1]]});
 
       try{
         await osiasFunc.deleteSpectatorFile(lolIngameImg[0]);
@@ -146,11 +147,12 @@ client.on('message', async msg => {
   }
   else if (command.startsWith('어몽어스')){
     const among = amongus.amongus(commandList);
+    console.log(among);
     if (among[1]){
-      await msg.channel.send('',{files:[among[1]]});
+      await msg.channel.send({files:[among[1]]});
     }
     else {
-      msg.channel.send(among);
+      msg.channel.send(among[0]);
     }
   }
   else if (command.startsWith('p')){
