@@ -1,4 +1,6 @@
-const Discord = require('discord.js');
+//const Discord = require('discord.js');
+
+const { Client, Intents } = require('discord.js');
 const minigame = require('./utils/minigame');
 const osiasFunc = require('./osiasFunc');
 const chatutils = require('./utils/chatutils');
@@ -19,7 +21,12 @@ const commandLetter = '*';
 //console.log(getlolLatestVersion);
 //global.getlolLatestVersion=getlolLatestVersion;
 
-const client = new Discord.Client();
+//const client = new Discord.Client();
+
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES]  });
+
+const queue = new Map();
+
 //client.on('ready', () => console.log('준비 완료!'));
 client.on('ready', async() => {
   getlolLatestVersion =  await lolutils.getLolVersion()
@@ -40,6 +47,9 @@ client.on('ready', async() => {
 
 });
 client.on('message', async msg => {
+
+  
+
   let content = msg.content;
   if (content === 'ping') {
     msg.reply(`🏓 pong! \`API 지연시간: ${Math.floor(client.ws.ping)}ms\``);
@@ -48,6 +58,10 @@ client.on('message', async msg => {
   if (!content.startsWith(commandLetter)) {
     return;
   }
+
+
+  const serverQueue = queue.get(msg.guild.id);
+
 
   const command = content.trim().substring(1);
   console.log('command: ' + command);
@@ -140,7 +154,7 @@ client.on('message', async msg => {
     }
   }
   else if (command.startsWith('p')){
-    musicutils.play(msg,)
+    musicutils.music(msg,serverQueue,queue);
   }
 });
 
