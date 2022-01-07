@@ -8,6 +8,15 @@ const lolutils = require('./utils/lolutils');
 const apiuilts = require('./utils/apiutils');
 const amongus = require('./utils/amongus');
 const musicutils = require('./utils/musicutils');
+const chatbuttons = require('./utils/chatbuttons');
+
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors')
+const router = require('./utils/apis/apis');
+
+
 
 const {
   DISCORD_KEY
@@ -154,10 +163,36 @@ client.on('message', async msg => {
       msg.channel.send(among[0]);
     }
   }
+  else if (command.startsWith('random')){
+    chatutils.random(msg);
+  }
   
 });
 
+client.on('interactionCreate', async (interaction) => {
+
+  if (interaction.isButton()){
+    chatbuttons.randomResultInteraction(interaction);
+  }
+
+});
+
+
 client.login(DISCORD_KEY);
+
+
+app.listen(10002, function () {
+  console.log('CORS-enabled web server listening on port 10002')
+})
+
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extends:true}));
+app.use(cors())
+app.set('view engine', 'ejs');
+app.use(router)
+
+
 /*
 module.exports={
   
