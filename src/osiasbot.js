@@ -41,6 +41,8 @@ client.on('ready', async() => {
   getlolLatestVersion =  await lolutils.getLolVersion()
   const lolLatestVersion = getlolLatestVersion[0];
   global.lolLatestVersion=lolLatestVersion;
+  let allchampionList = await lolutils.getChampionList();
+  global.allchampionList = allchampionList;
   console.log("최신버전: "+lolLatestVersion);
   
   const championFace = `http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/img/champion/`

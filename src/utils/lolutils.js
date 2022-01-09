@@ -57,7 +57,7 @@ const getSummonerChampion = async(lolid) =>
     .catch(err =>err);
 
 const getChampionList = async()=>
-    await axios.get('http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion.json')
+    await axios.get(`http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/data/ko_KR/champion.json`)
     .then(res=>res.data)
     .catch(err =>err);
 

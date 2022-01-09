@@ -6,16 +6,17 @@ const axios = require('axios');
 const {IMGBB_KEY} = require('./../../../key.json')
 const fs=require('fs');
 const FormData = require("form-data");
+const lolutils = require('../lolutils');
+
 
 router.get('/summonerImg', async function(req, res){
-
     let nickname = req.query.nickname;
     const summonerImg=await osiasFunc.getLoLInfoImg(nickname);
     if (summonerImg[1]!=undefined){
       let ImgURL = await uploadImgbb(summonerImg[1])
       //console.log(ImgURL);
       if (ImgURL.status == 200){
-        return res.json({"data":{"ImgURL":ImgURL.data.data.display_url, "summonertier":printTier(summonerImg[2][0],summonerImg[2][1]) , "summonerChampion" : summonerImg[2][2]}});
+        return res.json({"data":{"ImgURL":ImgURL.data.data.display_url, "summonerInfo": printSummoner(summonerImg[2][0]), "summonertier":printTier(summonerImg[2][1],summonerImg[2][2]) , "summonerChampion" : printMost(summonerImg[2][3])}});
       }
       else{
         return res.json({"data":"ImageError"});
@@ -60,6 +61,7 @@ const LPToString = (rank) => rank && rank.length > 0 ? `${rank[0].leaguePoints}L
 
 
 function printTier(summonerRank,tftRank){
+  
   let soloRank = summonerRank.filter(obj => obj['queueType'] === 'RANKED_SOLO_5x5');
   let flexRank = summonerRank.filter(obj => obj['queueType'] === 'RANKED_FLEX_SR');
   let tftRankTier = tftRank.filter(obj => obj['queueType'] === 'RANKED_TFT');
@@ -91,6 +93,40 @@ function printGameCounts(Rank){
 
   }
   else return "";
+}
+
+function printSummoner(summoner){
+  return({
+    "nickname" : summoner.name,
+    "profileIcon" : `http://ddragon.leagueoflegends.com/cdn/${lolLatestVersion}/img/profileicon/${summoner.profileIconId}.png`,
+    "summonerLevel": summoner.summonerLevel
+  })
+}
+
+function printMost(summonerChampion){
+  //const championList = lolutils.getChampionList();
+  printMost=[]
+  for (let i=0; i<3; i++){
+
+    
+    printMost.push({
+      "championId" : summonerChampion[i].championId,
+      "championName" : championIdtoName(summonerChampion[i].championId),
+      "championLevel" : summonerChampion[i].championLevel,
+      "championPoints" : summonerChampion[i].championPoints
+    });
+  }
+  
+  return printMost;
+}
+
+function championIdtoName(id){
+  for (let i in allchampionList.data){
+    
+    if (allchampionList.data[i].key== id){
+      return (allchampionList.data[i].name);
+    }
+  }
 }
 
 module.exports = router;

@@ -130,7 +130,7 @@ const getLoLInfoImg = async (command) => {
         resultImg= await summonerImg.makeLolStatusImg(nickname, summoner, summonertier, nicknametft, summonertfttier,summonerChampion,championList,championListFull);
         
     }
-    return [result,resultImg,[summonertier,summonertfttier,summonerChampion]];
+    return [result,resultImg,[summoner,summonertier,summonertfttier,summonerChampion]];
 }
 
 const getLolIngameImg = async (command) => {
