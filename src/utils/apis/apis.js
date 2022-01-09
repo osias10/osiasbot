@@ -11,19 +11,20 @@ const lolutils = require('../lolutils');
 
 router.get('/summonerImg', async function(req, res){
     let nickname = req.query.nickname;
-    const summonerImg=await osiasFunc.getLoLInfoImg(nickname);
+    console.log("api요청 : "+nickname);
+    const summonerImg=await osiasFunc.getLoLInfoImg(' '+nickname);
     if (summonerImg[1]!=undefined){
       let ImgURL = await uploadImgbb(summonerImg[1])
       //console.log(ImgURL);
       if (ImgURL.status == 200){
-        return res.json({"data":{"ImgURL":ImgURL.data.data.display_url, "summonerInfo": printSummoner(summonerImg[2][0]), "summonertier":printTier(summonerImg[2][1],summonerImg[2][2]) , "summonerChampion" : printMost(summonerImg[2][3])}});
+        return res.json({"status": "success","data":{"ImgURL":ImgURL.data.data.display_url, "summonerInfo": printSummoner(summonerImg[2][0]), "summonertier":printTier(summonerImg[2][1],summonerImg[2][2]) , "summonerChampion" : printMost(summonerImg[2][3])}});
       }
       else{
-        return res.json({"data":"ImageError"});
+        return res.json({"status":"ImageError"});
       }
     }
     else{
-      return res.json({"data":"NotFound"});
+      return res.json({"status":"NotFound"});
     }
 
 });
@@ -105,7 +106,7 @@ function printSummoner(summoner){
 
 function printMost(summonerChampion){
   //const championList = lolutils.getChampionList();
-  printMost=[]
+  let printMost=[]
   for (let i=0; i<3; i++){
 
     
