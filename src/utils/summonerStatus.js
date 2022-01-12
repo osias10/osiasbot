@@ -202,7 +202,8 @@ async function makeLolStatusImg(nickname, summonerInfo, summonerRank, summonerIn
     //모스트 챔피언 표시
     await printMost3(mostChampx, mostChampy ,champions, championFace,summonerChampion,ctx, fontKind, textColor, tierLocation)
     ctx.drawImage(Most1C_img, 50, tierLocation+50, 30, 30);
-    
+    //워터마크
+    drawText(ctx,`bold 5pt  ${fontKind}`,textColor,'made by osias',canvas.width-27,canvas.height-5);
         
     /*
     const statusImgStream=canvas.createPNGStream();

@@ -92,7 +92,7 @@ client.on('message', async msg => {
     const summonerImg=await osiasFunc.getLoLInfoImg(command);
     if (summonerImg[1]!=undefined){
       await msg.channel.send({files:[summonerImg[1]]});
-      console.log(summonerImg);
+      //console.log(summonerImg);
     }
     else{
       msg.channel.send(summonerImg[0]);
