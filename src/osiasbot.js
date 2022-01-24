@@ -7,7 +7,6 @@ const chatutils = require('./utils/chatutils');
 const lolutils = require('./utils/lolutils');
 const apiuilts = require('./utils/apiutils');
 const amongus = require('./utils/amongus');
-const musicutils = require('./utils/musicutils');
 const chatbuttons = require('./utils/chatbuttons');
 
 const express = require('express');
