@@ -24,7 +24,7 @@
     "canvas": "^2.8.0",
     "cheerio": "^1.0.0-rc.10",
     "discord.js": "^13.1.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "http": "0.0.1-security",
     "mathjs": "^9.4.5",
     "moment": "^2.29.1",
