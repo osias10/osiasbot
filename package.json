@@ -28,7 +28,7 @@
     "http": "0.0.1-security",
     "mathjs": "^9.4.5",
     "moment": "^2.29.1",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.20",
     "os": "^0.1.2",
     "request": "^2.88.2",
     "urlencode": "^1.1.0",
